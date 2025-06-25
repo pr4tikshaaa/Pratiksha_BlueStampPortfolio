@@ -47,12 +47,12 @@ For your first milestone, describe what your project is and how you plan to buil
 -->
 
 ## Decription
-  My first milestone was to learn how to calibrate a flex sensor, an accelerometer, and buzzers with an ESP32. When the flex sensor's flexADC value is below a certain number (approximately what looks like 90 degrees to the naked eye), one buzzer will buzz continuously and the serial monitor prints out "Flex Sensor: Bad form detected!" I also tried sampling the data the flex sensor was outputing in attempt to make the data more accurate. When the adafruit accelerometer's X acceleration value is below a certain number, another buzzer will buzz in a different patternand the serial monitor prints out "Accelerometer: Bad form detected!" I also learned how to print out the outputs that were originally displayed on the Serial Monitor onto an app on my phone.
+\tMy first milestone was to learn how to calibrate a flex sensor, an accelerometer, and buzzers with an ESP32. When the flex sensor's flexADC value is below a certain number (approximately what looks like 90 degrees to the naked eye), one buzzer will buzz continuously and the serial monitor prints out "Flex Sensor: Bad form detected!" I also tried sampling the data the flex sensor was outputing in attempt to make the data more accurate. When the adafruit accelerometer's X acceleration value is below a certain number, another buzzer will buzz in a different patternand the serial monitor prints out "Accelerometer: Bad form detected!" I also learned how to print out the outputs that were originally displayed on the Serial Monitor onto an app on my phone.
 ## Challenges
-    Calibrating the accelerometer was one of the biggest challenges for me. The example code for the Adafruit LSM6DS3+LIS3MDL Accelerometer provided by Arduino IDE did not work as it was, so I had to tweak it a bit. I also figured out that a 9600 baud rate wasn't suitable and would either print out random symbols onto the serial monitor or nothing at all, so I changed all my code to begin the serial with a 112500 baud rate.
+\tCalibrating the accelerometer was one of the biggest challenges for me. The example code for the Adafruit LSM6DS3+LIS3MDL Accelerometer provided by Arduino IDE did not work as it was, so I had to tweak it a bit. I also figured out that a 9600 baud rate wasn't suitable and would either print out random symbols onto the serial monitor or nothing at all, so I changed all my code to begin the serial with a 112500 baud rate.
 
 ## Next Steps
-  The thresholds that I have currently initialized for the flex sensor and the accelerometer are estimates I defined based on the naked eye, so my next steps would be to make these thresholds more accurate by temporarily taping all of my components to a knee brace, creating a prototype.
+\tThe thresholds that I have currently initialized for the flex sensor and the accelerometer are estimates I defined based on the naked eye, so my next steps would be to make these thresholds more accurate by temporarily taping all of my components to a knee brace, creating a prototype.
 
 # Starter Project Milestone
 
