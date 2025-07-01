@@ -33,6 +33,17 @@ For your second milestone, explain what you've worked on since your previous mil
 - Previous challenges you faced that you overcame
 - What needs to be completed before your final milestone 
 -->
+
+## Description
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+My second milestone overall was to create a working prototype of the knee rehab device. First, I combined my code for the flex sensor and the accelerometer and added the Bluetooth serial library. I configured my Bluetooth serial so I could power my device with a power bank and not my computer. This made testing my device much easier as I was able to move around in it and my connections weren't as strained. I also learned how to give the Bluetooth serial commands so it would do certain actions. For example, the program displays both flex sensor and accelerometer readings when 'p' is entered, only flex sensor values when 'f' is entered, only accelerometer values when 'a' is entered, and the program stops when 's' is entered. This way, it was easy to read the values and verify that each component is working individually. Then, I tried to figure out what an accurate threshold should be for the accelerometer to detect the rotation of the knee when bending inwards. I used rubber bands to secure my breadboard and accelerometer on the top of my knee brace and the side of my brace respectively. Using the accelerometer code, I studied how the X, Y, and Z axes of the accelerometer and gyroscope changed. At first, I noticed that the BLE Serial app on my phone was not displaying the values of the gyroscope correctly because it was cutting off half of the message, but later on, I realized that the messages were printing too fast, so the problem was resolved after I added a few delays in between messages being printed. Based on the placement of my accelerometer, I used the Y axis of the gyroscope to initialize a threshold for when my knee bends inwards. Later, for some reason, the buzzer for my accelerometer wasn't buzzing appropriately, but I just rewired things and it worked. Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I rubber banded it to the back of my brace made suree my device worked. I also made the Bluetooth serial print out "Accelerometer: Bad form detected!" and "Flex sensor: Bad form detected!" at appropriate times.
+
+## Challenges
+## Next Steps
+
 # First Milestone
 <!--
 **Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
@@ -47,10 +58,22 @@ For your first milestone, describe what your project is and how you plan to buil
 -->
 
 ## Description
+&nbsp; 
+&nbsp;
+&nbsp;
+&nbsp;
 My first milestone was to learn how to calibrate a flex sensor, an accelerometer, and buzzers with an ESP32. When the flex sensor's flexADC value is below a certain number (approximately what looks like 90 degrees to the naked eye), one buzzer will buzz continuously and the serial monitor prints out "Flex Sensor: Bad form detected!" I also tried sampling the data the flex sensor was outputing in attempt to make the data more accurate. I did this by reading ten values from the flex sensor at intervals of 0.01 seconds, finding the average of them, and print out that average. For the accelerometer, I used the example code provided by Arduino IDE (found when you go to 'File' and then press 'Examples') and added the logic to play the buzzer at a specific time. When the adafruit accelerometer's X-axis acceleration value is below a certain number, another buzzer, different from the one used for the flex sensor, will buzz in a different pattern, and the serial monitor prints out "Accelerometer: Bad form detected!" I also learned how to print out the outputs that were originally displayed on the Serial Monitor on my laptop onto an app on my phone called BLESerialnRF52.
 ## Challenges
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 Calibrating the accelerometer was one of the biggest challenges for me. One thing I did not pay attention to that set me back a little was that I downloaded the libraries and used the example code for the wrong accelerometer. The example code for the Adafruit LSM6DS3+LIS3MDL Accelerometer did not work as it was, so I had to tweak it a bit by uncommenting and changing line and downloading the necessary libraries. I also figured out that a 9600 baud rate wasn't suitable for the accelerometer and would either print out random symbols onto the serial monitor or nothing at all, so I changed all my code to begin the serial with a 112500 baud rate. The baud rate refers to the speed of data transmission, so a higher baud rate would be needed for the accelerometer because it generates data at high frequencies.
 ## Next Steps
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 The thresholds that I have currently initialized for the flex sensor and the accelerometer are estimates I defined based on the naked eye, so my next steps would be to make these thresholds more accurate by temporarily taping all of my components to a knee brace, creating a prototype.
 ## Schematic
 ![M1 Image](circuit_image.png)
