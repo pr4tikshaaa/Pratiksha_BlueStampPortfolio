@@ -39,10 +39,20 @@ For your second milestone, explain what you've worked on since your previous mil
 &nbsp;
 &nbsp;
 &nbsp;
-My second milestone overall was to create a working prototype of the knee rehab device. First, I combined my code for the flex sensor and the accelerometer and added the Bluetooth serial library. I configured my Bluetooth serial so I could power my device with a power bank and not my computer. This made testing my device much easier as I was able to move around in it and my connections weren't as strained. I also learned how to give the Bluetooth serial commands so it would do certain actions. For example, the program displays both flex sensor and accelerometer readings when 'p' is entered, only flex sensor values when 'f' is entered, only accelerometer values when 'a' is entered, and the program stops when 's' is entered. This way, it was easy to read the values and verify that each component is working individually. Then, I tried to figure out what an accurate threshold should be for the accelerometer to detect the rotation of the knee when bending inwards. I used rubber bands to secure my breadboard and accelerometer on the top of my knee brace and the side of my brace respectively. Using the accelerometer code, I studied how the X, Y, and Z axes of the accelerometer and gyroscope changed. At first, I noticed that the BLE Serial app on my phone was not displaying the values of the gyroscope correctly because it was cutting off half of the message, but later on, I realized that the messages were printing too fast, so the problem was resolved after I added a few delays in between messages being printed. Based on the placement of my accelerometer, I used the Y axis of the gyroscope to initialize a threshold for when my knee bends inwards. Later, for some reason, the buzzer for my accelerometer wasn't buzzing appropriately, but I just rewired things and it worked. Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I rubber banded it to the back of my brace made suree my device worked. I also made the Bluetooth serial print out "Accelerometer: Bad form detected!" and "Flex sensor: Bad form detected!" at appropriate times.
+My second milestone overall was to create a working prototype of the knee rehab device. First, I combined my code for the flex sensor and the accelerometer and added the Bluetooth serial library. I configured my Bluetooth serial so I could power my device with a power bank and not my computer. This made testing my device much easier as I was able to move around in it and my connections weren't as strained. I also learned how to give the Bluetooth serial commands so it would do certain actions. For example, the program displays both flex sensor and accelerometer readings when 'p' is entered, only flex sensor values when 'f' is entered, only accelerometer values when 'a' is entered, and the program stops when 's' is entered. This way, it was easy to read the values and verify that each component is working individually. Then, I tried to figure out what an accurate threshold should be for the accelerometer to detect the rotation of the knee when bending inwards. I used rubber bands to secure my breadboard and accelerometer on the top of my knee brace and the side of my brace respectively. Using the accelerometer code, I studied how the X, Y, and Z axes of the accelerometer and gyroscope changed. Based on the placement of my accelerometer, I used the X axis of the accelerometer to initialize a threshold for when my knee bends inwards. Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber banded to secure it to the back of my brace to make sure my device worked. I also made the Bluetooth serial print out "Accelerometer: Bad form detected!" and "Flex sensor: Bad form detected!" at appropriate times.
 
 ## Challenges
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+At first, I noticed that the BLE Serial app on my phone was not displaying the values of the gyroscope correctly because it was cutting off half of the message, but later on, I realized that the messages were printing too fast. So, the problem was resolved after I added a few delays in between messages being printed. Later, for some reason, the buzzer for my accelerometer wasn't buzzing appropriately, but I just rewired things and it worked. My biggest problem during this milestone was making sure my accelerometer was accurate. At first, I was trying to use the X axis of the gyroscope as the threshold for the bend of the knee, but it wasn't as accurate.
 ## Next Steps
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+My next steps are to add more modfications to my project and sew everything onto my brace.
 
 # First Milestone
 <!--
@@ -77,7 +87,66 @@ Calibrating the accelerometer was one of the biggest challenges for me. One thin
 The thresholds that I have currently initialized for the flex sensor and the accelerometer are estimates I defined based on the naked eye, so my next steps would be to make these thresholds more accurate by temporarily taping all of my components to a knee brace, creating a prototype.
 ## Schematic
 ![M1 Image](circuit_image.png)
-## Code
+
+# Starter Project Milestone
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OkP_cfM5t3o?si=ZXIxwUmzVvw81dvx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Description
+My starter project was the Jitterbug. It used a lithium battery to power the device, a vibration motor that turns on using a switch system, two red LED lights, and metal wire for the legs of the Jitterbug. These pieces were mounted and soldered together on a circuit board. When the switch is turned on, the current within the board is able to flow from the battery, powering the LED lights and the vibration motor. The Jitterbug then moves in a circular motion on smooth surfaces.
+## Challenges
+I faced numerous challenges while working on this project. I had a lot of trouble soldering the pieces together properly. When I was soldering the wires of the vibration motor, I accidentally created a short between them. I figured this out after using a multimeter by measuring the resistance between the two joints. So, I learned how to desolder the short using the desoldering pump. Eventually, I figured out that my soldering iron wasn't working well, so I switched to a new one, which made soldering much more easy and neat. As someone who has no experience in working with hardware, I found this project a little confusing at first, but I ended up learning a lot by the time I was finished. 
+## Next Steps
+This project allowed me to gain significant experience in soldering and wiring logic. I will be needing these skills for my next step--my intensive project, the knee rehabilitation device.
+
+# Schematics 
+<!--
+Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. 
+-->
+# Code
+<!--
+Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
+```c++
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  Serial.println("Hello World!");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+```
+-->
+
+# Bill of Materials
+<!--
+Here's where you'll list the parts in your project. To add more rows, just copy and paste the example rows below.
+Don't forget to place the link of where to buy each component inside the quotation marks in the corresponding row after href =. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize this to your project needs. 
+
+| **Part** | **Note** | **Price** | **Link** |
+|:--:|:--:|:--:|:--:|
+| Arduino Uno Rev3 | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
+| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
+| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
+-->
+
+# Other Resources/Examples
+<!--
+One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
+- [Example 1](https://trashytuber.github.io/YimingJiaBlueStamp/)
+- [Example 2](https://sviatil0.github.io/Sviatoslav_BSE/)
+- [Example 3](https://arneshkumar.github.io/arneshbluestamp/)
+
+To watch the BSE tutorial on how to create a portfolio, click here.
+-->
+- [Flex Sensor Hookup Guide](https://learn.sparkfun.com/tutorials/flex-sensor-hookup-guide/all)
+- [Adafruit LSM6DS3TR-C LIS3MD Overview](https://learn.adafruit.com/adafruit-lsm6ds3tr-c-lis3mdl-precision-9-dof-imu/overview)
+- [Arduino LSM6DS3 Example Code](https://docs.arduino.cc/libraries/arduino_lsm6ds3/)
+
+# Appendix
+## Milestone 1
 ### Flex Sensor
 ```c++
 
@@ -355,60 +424,3 @@ void loop() {
   delay(500);
 }
 ```
-
-# Starter Project Milestone
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OkP_cfM5t3o?si=ZXIxwUmzVvw81dvx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-## Description
-My starter project was the Jitterbug. It used a lithium battery to power the device, a vibration motor that turns on using a switch system, two red LED lights, and metal wire for the legs of the Jitterbug. These pieces were mounted and soldered together on a circuit board. When the switch is turned on, the current within the board is able to flow from the battery, powering the LED lights and the vibration motor. The Jitterbug then moves in a circular motion on smooth surfaces.
-## Challenges
-I faced numerous challenges while working on this project. I had a lot of trouble soldering the pieces together properly. When I was soldering the wires of the vibration motor, I accidentally created a short between them. I figured this out after using a multimeter by measuring the resistance between the two joints. So, I learned how to desolder the short using the desoldering pump. Eventually, I figured out that my soldering iron wasn't working well, so I switched to a new one, which made soldering much more easy and neat. As someone who has no experience in working with hardware, I found this project a little confusing at first, but I ended up learning a lot by the time I was finished. 
-## Next Steps
-This project allowed me to gain significant experience in soldering and wiring logic. I will be needing these skills for my next step--my intensive project, the knee rehabilitation device.
-
-# Schematics 
-<!--
-Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. 
--->
-# Code
-<!--
-Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
-```c++
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Hello World!");
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
-```
--->
-
-# Bill of Materials
-<!--
-Here's where you'll list the parts in your project. To add more rows, just copy and paste the example rows below.
-Don't forget to place the link of where to buy each component inside the quotation marks in the corresponding row after href =. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize this to your project needs. 
-
-| **Part** | **Note** | **Price** | **Link** |
-|:--:|:--:|:--:|:--:|
-| Arduino Uno Rev3 | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
-| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
-| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
--->
-
-# Other Resources/Examples
-<!--
-One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
-- [Example 1](https://trashytuber.github.io/YimingJiaBlueStamp/)
-- [Example 2](https://sviatil0.github.io/Sviatoslav_BSE/)
-- [Example 3](https://arneshkumar.github.io/arneshbluestamp/)
-
-To watch the BSE tutorial on how to create a portfolio, click here.
--->
-- [Flex Sensor Hookup Guide](https://learn.sparkfun.com/tutorials/flex-sensor-hookup-guide/all)
-- [Adafruit LSM6DS3TR-C LIS3MD Overview](https://learn.adafruit.com/adafruit-lsm6ds3tr-c-lis3mdl-precision-9-dof-imu/overview)
-- [Arduino LSM6DS3 Example Code](https://docs.arduino.cc/libraries/arduino_lsm6ds3/)
