@@ -63,7 +63,8 @@ I also made the Bluetooth serial print out ```"Accelerometer: Bad form detected!
 &nbsp;
 &nbsp;
 &nbsp;
-What I focused the most on during this milestone is figuring out accurate thresholds for my accelerometer to be able to detect when my knee is bending inward while doing a squat. I tried various things to determine my thresholds, but the technique I stuck to in my final code was using a linear regression model. The 
+What I focused the most on during this milestone is figuring out accurate thresholds for my accelerometer to be able to detect when my knee is bending inward while doing a squat. I tried various things to determine my thresholds, but the technique I stuck to in my final code was using a Logistic Regression Model from Google Colab. Logistic Regression is a machine learning method that finds the relationship between an independent variable and a dependent variable and creates a line of best fit to represent the data given to it. So, I did squats in proper form, where my knee wasn't bending inward, and did squats in improper form, where my knee was bending inward and observed the X, Y, and Z axes on a Google sheet. I recorded the three values on 10 different occasions I did a squat in improper form and 10 other occasions where I did a squat in proper form. I also created a 4th column to label the rows as either 'good' or 'bad.' Then, I downloaded the data as a ```.csv``` file and uploaded it to the Google Colab code to give the machine learning model simple and readable data. I also included the line ```df['label'] = df['label'].map({'good': 1, 'bad': 0})``` so the model reads 'good' as 1 and 'bad' as 0. When I ran the code, the output gave me the coefficients and the intercept of the regression equation ```y = a*x + b*y + c*z + d```. 
+
 I tried to figure out what an accurate threshold should be for the accelerometer to detect the rotation of the knee when bending inwards. I used rubber bands to secure my breadboard and accelerometer on the top of my knee brace and the side of my brace respectively. Using the accelerometer code, I studied how the X, Y, and Z axes of the accelerometer and gyroscope changed. Based on the placement of my accelerometer, I used the X axis of the accelerometer to initialize a threshold for when my knee bends inwards. Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber banded to secure it to the back of my brace to make sure my device worked. I also made the Bluetooth serial print out "Accelerometer: Bad form detected!" and "Flex sensor: Bad form detected!" at appropriate times.
 
 ## Challenges
@@ -169,6 +170,7 @@ To watch the BSE tutorial on how to create a portfolio, click here.
 - [Flex Sensor Hookup Guide](https://learn.sparkfun.com/tutorials/flex-sensor-hookup-guide/all)
 - [Adafruit LSM6DS3TR-C LIS3MD Overview](https://learn.adafruit.com/adafruit-lsm6ds3tr-c-lis3mdl-precision-9-dof-imu/overview)
 - [Arduino LSM6DS3 Example Code](https://docs.arduino.cc/libraries/arduino_lsm6ds3/)
+- [Logistic Regression Model](https://colab.research.google.com/github/diannekrouse/LRPython/blob/master/LogisticRegression.ipynb)
 
 # Appendix
 ## Milestone 1
