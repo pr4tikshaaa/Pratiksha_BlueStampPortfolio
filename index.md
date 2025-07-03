@@ -39,7 +39,32 @@ For your second milestone, explain what you've worked on since your previous mil
 &nbsp;
 &nbsp;
 &nbsp;
-My second milestone overall was to create a working prototype of the knee rehab device. First, I combined my code for the flex sensor and the accelerometer and added the Bluetooth serial library. I configured my Bluetooth serial so I could power my device with a power bank and not my computer. This made testing my device much easier as I was able to move around in it and my connections weren't as strained. I also learned how to give the Bluetooth serial commands so it would do certain actions. For example, the program displays both flex sensor and accelerometer readings when 'p' is entered, only flex sensor values when 'f' is entered, only accelerometer values when 'a' is entered, and the program stops when 's' is entered. This way, it was easy to read the values and verify that each component is working individually. Then, I tried to figure out what an accurate threshold should be for the accelerometer to detect the rotation of the knee when bending inwards. I used rubber bands to secure my breadboard and accelerometer on the top of my knee brace and the side of my brace respectively. Using the accelerometer code, I studied how the X, Y, and Z axes of the accelerometer and gyroscope changed. Based on the placement of my accelerometer, I used the X axis of the accelerometer to initialize a threshold for when my knee bends inwards. Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber banded to secure it to the back of my brace to make sure my device worked. I also made the Bluetooth serial print out "Accelerometer: Bad form detected!" and "Flex sensor: Bad form detected!" at appropriate times.
+My second milestone overall was to create a working prototype of the knee rehab device. 
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The first thing I did in this milestone was configure my Bluetooth Serial. I added in the ```<BleSerial.h>``` library, a variable called ```ble``` of type ```BleSerial```, and changed all of the original ```Serial.print```/```Serial.println``` commands to ```ble.print```/```ble.println```. This way, the BLESerialnRF52 app on my phone will print out all of the data that was originally printed onto my laptop onto my phone, making accessing data more accessible. In addition, since I connected my ESP32 to the Bluetooth, I was able to connect and power my prototype with an external power source--more specifically, a power bank--and not have to connect my prototype to a computer all the time. This made it easier to test my device because my wires weren't as strained when I connected it to my computer.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Later in this milestone, I learned how to give the Bluetooth serial commands so it would print specific data and stop doing certain actions. 
+For example, when this character is typed into the Bluetooth serial...
+- ```p```: Both the flex sensor and accelerometer readings are displayed/
+- ```a```: Only the flex sensor values are displayed.
+- ```f```: Only the accelerometer values are displayed.
+- ```s```: Data is stopped being displayed, and any buzzers that were buzzing previously are stopped.
+This way, it was much easier to read the values and verify that each component is working individually. I am planning to add more commands like these to activate my future modifications.
+I also made the Bluetooth serial print out ```"Accelerometer: Bad form detected!"``` and ```"Flex sensor: Bad form detected!"``` at appropriate times.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+What I focused the most on during this milestone is figuring out accurate thresholds for my accelerometer to be able to detect when my knee is bending inward while doing a squat. I tried various things to determine my thresholds, but the technique I stuck to in my final code was using a linear regression model. The 
+I tried to figure out what an accurate threshold should be for the accelerometer to detect the rotation of the knee when bending inwards. I used rubber bands to secure my breadboard and accelerometer on the top of my knee brace and the side of my brace respectively. Using the accelerometer code, I studied how the X, Y, and Z axes of the accelerometer and gyroscope changed. Based on the placement of my accelerometer, I used the X axis of the accelerometer to initialize a threshold for when my knee bends inwards. Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber banded to secure it to the back of my brace to make sure my device worked. I also made the Bluetooth serial print out "Accelerometer: Bad form detected!" and "Flex sensor: Bad form detected!" at appropriate times.
 
 ## Challenges
 &nbsp;
@@ -52,7 +77,7 @@ At first, I noticed that the BLE Serial app on my phone was not displaying the v
 &nbsp;
 &nbsp;
 &nbsp;
-My next steps are to add more modfications to my project and sew everything onto my brace.
+My next steps are to add more modfications to my project and sew everything together onto my brace.
 
 # First Milestone
 <!--
