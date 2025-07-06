@@ -76,7 +76,8 @@ Finally, I soldered my flex sensor pins to two wires so I could determine a thre
 &nbsp;
 &nbsp;
 &nbsp;
-At first, I noticed that the BLE Serial app on my phone was not displaying the values of the gyroscope correctly because it was cutting off half of the message, but later on, I realized that the messages were printing too fast. So, the problem was resolved after I added a few delays in between messages being printed. 
+At first, I noticed that the BLE Serial app on my phone was not displaying the values of the gyroscope correctly because it was cutting off half of the message, but later on, I realized that the messages were printing too fast. So, the problem was resolved after I added a few delays in between messages being printed.
+
 &nbsp;
 &nbsp;
 &nbsp;
