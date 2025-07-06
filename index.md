@@ -40,6 +40,7 @@ For your second milestone, explain what you've worked on since your previous mil
 &nbsp;
 &nbsp;
 My second milestone overall was to create a working prototype of the knee rehab device. 
+
 &nbsp;
 &nbsp;
 &nbsp;
