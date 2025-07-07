@@ -124,10 +124,6 @@ Calibrating the accelerometer was one of the biggest challenges for me. One thin
 &nbsp;
 &nbsp;
 The thresholds that I have currently initialized for the flex sensor and the accelerometer are estimates I defined based on the naked eye, so my next steps would be to make these thresholds more accurate by temporarily taping all of my components to a knee brace, creating a prototype.
-## Schematic
-<div align="center">
-  <img src="circuit_image.png" alt="M1 Image" width="900">
-</div>
 
 # Starter Project Milestone
 
@@ -245,7 +241,7 @@ To watch the BSE tutorial on how to create a portfolio, click here.
 - [Arduino LSM6DS3 Example Code](https://docs.arduino.cc/libraries/arduino_lsm6ds3/)
 - [Logistic Regression Model](https://colab.research.google.com/github/diannekrouse/LRPython/blob/master/LogisticRegression.ipynb)
 
-# Appendix
+# Appendix A
 ## Milestone 1
 ### Flex Sensor
 ```c++
@@ -467,10 +463,12 @@ void setup(void) {
 }
 
 void loop() {
-  sensors_event_t accel;
-  sensors_event_t gyro;
-  sensors_event_t temp;
-  lsm6ds33.getEvent(&accel, &gyro, &temp);
+
+  // Declare sensor event objects to store data from accelerometer, gyroscope, and magnetometer
+  sensors_event_t accel; // accelerometer readings (x, y, z)
+  sensors_event_t gyro; // gyroscope readings (x, y, z)
+  sensors_event_t temp; // temperature reading
+  lsm6ds33.getEvent(&accel, &gyro, &temp); // read sensor data in real time
 
   Serial.print("\t\tTemperature ");
   Serial.print(temp.temperature);
@@ -524,3 +522,385 @@ void loop() {
   delay(500);
 }
 ```
+
+## Milestone 2
+```
+// Basic demo for accelerometer/gyro readings from Adafruit LSM6DS33
+
+// For SPI mode, we need a CS pin
+#define LSM_CS 10
+// For software-SPI mode we need SCK/MOSI/MISO pins
+#define LSM_SCK 13
+#define LSM_MISO 12
+#define LSM_MOSI 11
+
+Adafruit_LSM6DS33 lsm6ds33;
+BleSerial ble; // variable needed to communicate with BLE serial modules
+
+const int accelBuzzer = 32;
+const int flexPin = 26;
+const int flexBuzzer = 33;
+const int num = 10; // for averaging data
+const int flexADCThreshold = 710;
+
+bool badFormFlex = false;
+bool badFormAccel = false;
+
+bool printEnabled = false;
+bool printFlex = false;
+bool printAccel = false;
+
+void setup(void) {
+  Serial.begin(115200);
+  pinMode(accelBuzzer, OUTPUT);
+  pinMode(flexPin, INPUT);
+  pinMode(flexBuzzer, OUTPUT);
+  ble.begin("Pratiksha'sBleSerialTest");
+
+  while (!Serial)
+    delay(10);
+
+  ble.println("Adafruit LSM6DS33 test!");
+
+  if (lsm6ds33.begin_I2C()) {
+    ble.println("Finding LSM6DS33 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+
+  ble.println("LSM6DS33 Found!");
+
+  lsm6ds33.setAccelRange(LSM6DS_ACCEL_RANGE_2_G);
+  ble.print("Accelerometer range set to: ");
+  switch (lsm6ds33.getAccelRange()) {
+  case LSM6DS_ACCEL_RANGE_2_G:
+    ble.println("+-2G");
+    break;
+  case LSM6DS_ACCEL_RANGE_4_G:
+    ble.println("+-4G");
+    break;
+  case LSM6DS_ACCEL_RANGE_8_G:
+    ble.println("+-8G");
+    break;
+  case LSM6DS_ACCEL_RANGE_16_G:
+    ble.println("+-16G");
+    break;
+  }
+
+  lsm6ds33.setGyroRange(LSM6DS_GYRO_RANGE_250_DPS);
+  ble.print("Gyro range set to: ");
+  switch (lsm6ds33.getGyroRange()) {
+  case LSM6DS_GYRO_RANGE_125_DPS:
+    ble.println("125 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_250_DPS:
+    ble.println("250 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_500_DPS:
+    ble.println("500 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_1000_DPS:
+    ble.println("1000 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_2000_DPS:
+    ble.println("2000 degrees/s");
+    break;
+  case ISM330DHCX_GYRO_RANGE_4000_DPS:
+    break; 
+  }
+
+  lsm6ds33.setAccelDataRate(LSM6DS_RATE_12_5_HZ);
+  ble.print("Accelerometer data rate set to: ");
+  switch (lsm6ds33.getAccelDataRate()) {
+  case LSM6DS_RATE_SHUTDOWN:
+    ble.println("0 Hz");
+    break;
+  case LSM6DS_RATE_12_5_HZ:
+    ble.println("12.5 Hz");
+    break;
+  case LSM6DS_RATE_26_HZ:
+    ble.println("26 Hz");
+    break;
+  case LSM6DS_RATE_52_HZ:
+    ble.println("52 Hz");
+    break;
+  case LSM6DS_RATE_104_HZ:
+    ble.println("104 Hz");
+    break;
+  case LSM6DS_RATE_208_HZ:
+    ble.println("208 Hz");
+    break;
+  case LSM6DS_RATE_416_HZ:
+    ble.println("416 Hz");
+    break;
+  case LSM6DS_RATE_833_HZ:
+    ble.println("833 Hz");
+    break;
+  case LSM6DS_RATE_1_66K_HZ:
+    ble.println("1.66 KHz");
+    break;
+  case LSM6DS_RATE_3_33K_HZ:
+    ble.println("3.33 KHz");
+    break;
+  case LSM6DS_RATE_6_66K_HZ:
+    ble.println("6.66 KHz");
+    break;
+  }
+
+  lsm6ds33.setGyroDataRate(LSM6DS_RATE_12_5_HZ);
+  ble.print("Gyro data rate set to: ");
+  switch (lsm6ds33.getGyroDataRate()) {
+  case LSM6DS_RATE_SHUTDOWN:
+    ble.println("0 Hz");
+    break;
+  case LSM6DS_RATE_12_5_HZ:
+    ble.println("12.5 Hz");
+    break;
+  case LSM6DS_RATE_26_HZ:
+    ble.println("26 Hz");
+    break;
+  case LSM6DS_RATE_52_HZ:
+    ble.println("52 Hz");
+    break;
+  case LSM6DS_RATE_104_HZ:
+    ble.println("104 Hz");
+    break;
+  case LSM6DS_RATE_208_HZ:
+    ble.println("208 Hz");
+    break;
+  case LSM6DS_RATE_416_HZ:
+    ble.println("416 Hz");
+    break;
+  case LSM6DS_RATE_833_HZ:
+    ble.println("833 Hz");
+    break;
+  case LSM6DS_RATE_1_66K_HZ:
+    ble.println("1.66 KHz");
+    break;
+  case LSM6DS_RATE_3_33K_HZ:
+    ble.println("3.33 KHz");
+    break;
+  case LSM6DS_RATE_6_66K_HZ:
+    ble.println("6.66 KHz");
+    break;
+  }
+
+  lsm6ds33.configInt1(false, false, true);
+  lsm6ds33.configInt2(false, true, false);
+
+  ble.println("Knee Rehab Device initiated.");
+}
+
+void loop() {
+  if (ble.available() > 0) {
+    char incomingChar = ble.read(); // read user's input from input stream
+
+    if (incomingChar == 'p') { // prints flex sensor and accelerometer values
+      printFlex = true;
+      printAccel = true;
+      ble.println();
+      ble.println("Printing data...");
+      ble.println();
+    } else if (incomingChar == 'f' ) { // prints flex sensor values
+      printFlex = true;
+      printAccel = false;
+      ble.println();
+      ble.println("Printing flex sensor readings...");
+      ble.println();
+    } else if (incomingChar == 'a') {  // prints accelerometer values
+      printFlex = false;
+      printAccel = true;
+      ble.println();
+      ble.println("Printing accelerometer readings...");
+      ble.println();
+    } else if (incomingChar == 's') {  // stops printing
+      printFlex = false;
+      printAccel = false;
+      ble.println();
+      ble.println("Printing disabled.");
+      ble.println();
+      noTone(accelBuzzer);
+      noTone(flexBuzzer);
+    }
+
+  if (printFlex == true && printAccel == true) {
+
+  sensors_event_t accel;
+  sensors_event_t gyro;
+  sensors_event_t temp;
+  
+  lsm6ds33.getEvent(&accel, &gyro, &temp);
+
+  float linearSum = 0.28821893*accel.acceleration.x +  0.92750543*accel.acceleration.y -1.60632781*accel.acceleration.z + 0.49655361;  // coefficients from logistic regression model
+  float probability = 1.0 / (1.0 + exp(-linearSum));  // logistic function equation
+
+  ble.print("Temperature ");
+  ble.print(temp.temperature);
+  ble.println(" deg C");
+
+  delay(50);
+
+  /* Display the results (acceleration is measured in m/s^2) */
+  ble.print("Accel X: ");
+  ble.print(accel.acceleration.x);
+  ble.print(" \tY: ");
+  ble.print(accel.acceleration.y);
+  ble.print(" \tZ: ");
+  ble.print(accel.acceleration.z);
+  ble.println(" m/s^2 ");
+
+  delay(100);
+
+  /* Display the results (rotation is measured in rad/s) */
+  ble.print("Gyro X: ");
+  ble.print(gyro.gyro.x);
+  ble.print(" \tY: ");
+  ble.print(gyro.gyro.y);
+  ble.print(" \tZ: ");
+  ble.print(gyro.gyro.z);
+  ble.println(" radians/s ");
+  ble.println();
+
+  delay(100);
+
+  if (probability < 0.5) { // less than 0.5 means squat is more likely to be in improper form
+    badFormAccel = true;
+    tone(accelBuzzer, 1000);
+    ble.println();
+    ble.println("\tAccelerometer: Bad form detected!");
+    ble.println();
+    delay(200);   
+    noTone(accelBuzzer);
+    delay(50);
+    tone(accelBuzzer, 1000);
+    delay(200);          
+    noTone(accelBuzzer);
+    delay(300);
+  } else {
+    noTone(accelBuzzer);
+  }
+
+  // average flexADC values for increased accuracy of readings
+  int sum = 0;
+  for (int i = 0; i < num; i++) {
+    sum += analogRead(flexPin);
+    delay(10);
+  }
+  
+  int flexADC = sum/num;
+
+  if (flexADC < flexADCThreshold) {
+    badFormFlex = true;
+    ble.println();
+    ble.println("\tFlex Sensor: Bad form detected!");
+    ble.println();
+    tone(flexBuzzer, 1000);
+  } else {
+    noTone(flexBuzzer);
+  }
+
+  delay(100);
+
+  ble.println();
+  ble.print("FlexADC value: ");
+  ble.println(flexADC);
+  ble.println();
+
+  delay(400);
+
+} else if (printFlex == true && printAccel == false) {
+
+  int sum = 0;
+  for (int i = 0; i < num; i++) {
+    sum += analogRead(flexPin);
+    delay(10);
+  }
+  
+  int flexADC = sum/num;
+
+  if (flexADC < flexADCThreshold) {
+    badFormFlex = true;
+    ble.println();
+    ble.println("\tFlex Sensor: Bad form detected!");
+    ble.println();
+    tone(flexBuzzer, 1000);
+  } else {
+    noTone(flexBuzzer);
+  }
+
+  delay(100);
+
+  ble.println();
+  ble.print("FlexADC value: ");
+  ble.println(flexADC);
+  ble.println();
+
+  delay(400);
+
+} else if (printFlex == false && printAccel == true) {
+
+  sensors_event_t accel;
+  sensors_event_t gyro;
+  sensors_event_t temp;
+  
+  lsm6ds33.getEvent(&accel, &gyro, &temp);
+
+  float linearSum = 0.28821893*accel.acceleration.x +  0.92750543*accel.acceleration.y -1.60632781*accel.acceleration.z + 0.49655361;
+  float probability = 1.0 / (1.0 + exp(-linearSum)); 
+
+  ble.print("Temperature ");
+  ble.print(temp.temperature);
+  ble.println(" deg C");
+
+  delay(50);
+
+  /* Display the results (acceleration is measured in m/s^2) */
+  ble.print("Accel X: ");
+  ble.print(accel.acceleration.x);
+  ble.print(" \tY: ");
+  ble.print(accel.acceleration.y);
+  ble.print(" \tZ: ");
+  ble.print(accel.acceleration.z);
+  ble.println(" m/s^2 ");
+
+  delay(100);
+
+  /* Display the results (rotation is measured in rad/s) */
+  ble.print("Gyro X: ");
+  ble.print(gyro.gyro.x);
+  ble.print(" \tY: ");
+  ble.print(gyro.gyro.y);
+  ble.print(" \tZ: ");
+  ble.print(gyro.gyro.z);
+  ble.println(" radians/s ");
+  ble.println();
+
+  delay(100);
+
+  if (probability < 0.5) {
+    badFormAccel = true;
+    tone(accelBuzzer, 1000);
+    ble.println();
+    ble.println("\tAccelerometer: Bad form detected!");
+    ble.println();
+    delay(200);   
+    noTone(accelBuzzer);
+    delay(50);
+    tone(accelBuzzer, 1000);
+    delay(200);          
+    noTone(accelBuzzer);
+    delay(300);
+  } else {
+    noTone(accelBuzzer);
+  }
+    }
+}
+}
+
+
+# Appendix B
+## Milestone 1
+<div align="center">
+  <img src="circuit_image.png" alt="M1 Image" width="900">
+</div>
