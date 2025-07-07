@@ -134,10 +134,22 @@ The thresholds that I have currently initialized for the flex sensor and the acc
 <iframe width="560" height="315" src="https://www.youtube.com/embed/OkP_cfM5t3o?si=ZXIxwUmzVvw81dvx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Description
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 My starter project was the Jitterbug. It used a lithium battery to power the device, a vibration motor that turns on using a switch system, two red LED lights, and metal wire for the legs of the Jitterbug. These pieces were mounted and soldered together on a circuit board. When the switch is turned on, the current within the board is able to flow from the battery, powering the LED lights and the vibration motor. The Jitterbug then moves in a circular motion on smooth surfaces.
 ## Challenges
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 I faced numerous challenges while working on this project. I had a lot of trouble soldering the pieces together properly. When I was soldering the wires of the vibration motor, I accidentally created a short between them. I figured this out after using a multimeter by measuring the resistance between the two joints. So, I learned how to desolder the short using the desoldering pump. Eventually, I figured out that my soldering iron wasn't working well, so I switched to a new one, which made soldering much more easy and neat. As someone who has no experience in working with hardware, I found this project a little confusing at first, but I ended up learning a lot by the time I was finished. 
 ## Next Steps
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 This project allowed me to gain significant experience in soldering and wiring logic. I will be needing these skills for my next step--my intensive project, the knee rehabilitation device.
 
 # Flex Sensor
@@ -164,21 +176,31 @@ A flex sensor is a type of variable resistor that changes its electrical resista
 &nbsp;
 &nbsp;
 &nbsp;
-This change in resistance can be used to measure at what degree the sensor is bending at.
+This change in resistance can be measured and read by a microcontroller--in my case, an ESP32-WROOM--using a voltage divider circuit _(see Apendix B)_. I connected the flex sensor to the analog pin, pin number 26 on the ESP32. I chose GPIO 26 because it supports analog input, which is essential for this flex to be able to read the changing resistance values of the flex sensor.
 
-In my project, I needed a way to measure how much my knee bends during a squat. A flex sensor is perfect for this task.
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+In the code, I read the sensor values using the analogRead() function on pin 26:
 
-A flex sensor is a type of variable resistor that changes its resistance based on how much it is bent. When the sensor is straight, it has a lower resistance (typically around 10k ohms). As it bends, the resistance increases — sometimes reaching values around 30k ohms or higher, depending on the bending angle.
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+```int flexADC = analogRead(flexPin);  // flexPin = 26```
 
-This change in resistance can be measured using a voltage divider circuit and read by an analog input pin on a microcontroller. I connected the flex sensor to an ESP32 and used the Arduino IDE to write the code that reads the analog values from the sensor.
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The analog values read from the sensor are stored in the variable ```flexADC```. They range from 0 to 4095 on the ESP32 because it operates with a 12-bit resolution. These 4096 values are used to represent the voltage at the analog input pin. So, by default, 0 volts is converted to the digital value 0 and 3.3 volts is converted to the digital value of 4095.
 
-In my knee rehab device, the sensor is placed behind the knee. As I perform a squat, the sensor bends along with the joint, and the ESP32 reads the corresponding voltage. This allows me to determine how much the knee is bending and track whether I’m performing the movement correctly.
-
-<div align="center"> <img src="flex_sensor.webp" alt="Flex Sensor Example" width="500"> </div>
- 
-
-This setup provides real-time feedback and allows for tracking proper squat form using just a simple and inexpensive sensor.
-
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+In my knee rehab device, I placed the flex sensor behind the knee because measuring the inner bend of the knee would provide more accurate values. As I perform a squat, the sensor bends along with my knee, and the ESP32 reads the corresponding flexADC values in real time. This way, I was able to determine specific flexADC thresholds to track how deep the squat is.
 
 # Code
 <!--
