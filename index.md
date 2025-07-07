@@ -33,6 +33,7 @@ For your second milestone, explain what you've worked on since your previous mil
 - Previous challenges you faced that you overcame
 - What needs to be completed before your final milestone 
 -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-PiUTkNgQGM?si=0JDh3qX_HEXwD2pu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Description
 &nbsp;
@@ -105,6 +106,7 @@ For your first milestone, describe what your project is and how you plan to buil
 - Challenges you're facing and solving in your future milestones
 - What your plan is to complete your project
 -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7I427EQxpsU?si=inD3CkVD_oA9nTMT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Description
 &nbsp; 
