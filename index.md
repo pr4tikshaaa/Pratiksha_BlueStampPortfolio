@@ -206,6 +206,34 @@ In my knee rehab device, I placed the flex sensor behind the knee because measur
 
 # Logistic Regression Model
 
+Code:
+```cpp
+import pandas as pd
+import io
+from sklearn.linear_model import LogisticRegression
+
+df = pd.read_csv(io.BytesIO(uploaded['accel_data - Sheet1 (2).csv']))
+
+df['label'] = df['label'].map({'good': 1, 'bad': 0})
+
+X = df[['x', 'y', 'z']]  # Features
+y = df['label']          # Output (0 or 0)
+
+model = LogisticRegression()
+model.fit(X, y)
+
+
+print("Coefficients (weights):", model.coef_)
+print("Intercept:", model.intercept_)
+```
+
+Output:
+```cpp
+Coefficients (weights): [[ 0.28821893  0.92750543 -1.60632781]]
+Intercept: [0.49655361]
+```
+
+
 # Bill of Materials
 <!--
 Here's where you'll list the parts in your project. To add more rows, just copy and paste the example rows below.
