@@ -125,7 +125,9 @@ Calibrating the accelerometer was one of the biggest challenges for me. One thin
 &nbsp;
 The thresholds that I have currently initialized for the flex sensor and the accelerometer are estimates I defined based on the naked eye, so my next steps would be to make these thresholds more accurate by temporarily taping all of my components to a knee brace, creating a prototype.
 ## Schematic
-![M1 Image](circuit_image.png)
+<div align="center">
+  <img src="circuit_image.png" alt="M1 Image" width="900">
+</div>
 
 # Starter Project Milestone
 
@@ -142,7 +144,41 @@ This project allowed me to gain significant experience in soldering and wiring l
 <!--
 Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. 
 -->
-![M1 Image](flex_sensor.webp | width=100)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+In my project, I needed a way to measure much my knee bends while doing a squat. A flex sensor is perfect for this task. 
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+A flex sensor is a type of variable resistor that changes its electrical resistance based on how much it is bent. When the sensor is straight, it has a lower resistance, and as it bends, the resistance increases. 
+
+<div align="center">
+  <img src="flex_sensor.webp" alt="M1 Image" width="500">
+</div>
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+This change in resistance can be used to measure at what degree the sensor is bending at.
+
+In my project, I needed a way to measure how much my knee bends during a squat. A flex sensor is perfect for this task.
+
+A flex sensor is a type of variable resistor that changes its resistance based on how much it is bent. When the sensor is straight, it has a lower resistance (typically around 10k ohms). As it bends, the resistance increases — sometimes reaching values around 30k ohms or higher, depending on the bending angle.
+
+This change in resistance can be measured using a voltage divider circuit and read by an analog input pin on a microcontroller. I connected the flex sensor to an ESP32 and used the Arduino IDE to write the code that reads the analog values from the sensor.
+
+In my knee rehab device, the sensor is placed behind the knee. As I perform a squat, the sensor bends along with the joint, and the ESP32 reads the corresponding voltage. This allows me to determine how much the knee is bending and track whether I’m performing the movement correctly.
+
+<div align="center"> <img src="flex_sensor.webp" alt="Flex Sensor Example" width="500"> </div>
+ 
+
+This setup provides real-time feedback and allows for tracking proper squat form using just a simple and inexpensive sensor.
+
 
 # Code
 <!--
