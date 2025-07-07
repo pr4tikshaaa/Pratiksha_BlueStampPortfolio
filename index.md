@@ -200,22 +200,9 @@ The analog values read from the sensor are stored in the variable ```flexADC```.
 &nbsp;
 In my knee rehab device, I placed the flex sensor behind the knee because measuring the inner bend of the knee would provide more accurate values. As I perform a squat, the sensor bends along with my knee, and the ESP32 reads the corresponding flexADC values in real time. This way, I was able to determine specific flexADC thresholds to track how deep the squat is.
 
-# Code
-<!--
-Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
-```c++
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Hello World!");
-}
+# Adafruit LSM6DS3 + LIS3MDL Accelerometer
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
-```
--->
+# Logistic Regression Model
 
 # Bill of Materials
 <!--
