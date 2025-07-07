@@ -203,6 +203,21 @@ The analog values read from the sensor are stored in the variable ```flexADC```.
 In my knee rehab device, I placed the flex sensor behind the knee because measuring the inner bend of the knee would provide more accurate values. As I perform a squat, the sensor bends along with my knee, and the ESP32 reads the corresponding flexADC values in real time. This way, I was able to determine specific flexADC thresholds to track how deep the squat is.
 
 # Adafruit LSM6DS3 + LIS3MDL Accelerometer
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+In my project, I needed a way to detect if my knee bends inwards during a squat, so I needed a sensor that would be able to track values that differ from when I do a proper squat versus an improper squat. The Adafruit LSM6DS3 + LIS3MDL Accelerometer is suitable for this.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The Adafruit Accelerometer is an accelerometer module that detects the accerelation through an acclerometer, the angular velocity through a gyroscop, and the temperature through a magnetometer. The accelerometer and gyroscope read three dimensions, the X, Y, and Z axes.
+
+<div align="center">
+  <img src="accel_rpy.gif" alt="M1 Image" width="500">
+</div>
 
 # Logistic Regression Model
 
