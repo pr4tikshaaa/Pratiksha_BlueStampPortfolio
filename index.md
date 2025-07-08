@@ -950,3 +950,14 @@ void loop() {
 <div align="center">
   <img src="circuit_image.png" alt="M1 Image" width="900">
 </div>
+
+## Milestone 3
+### Vibration Motor
+<div align="center">
+  <img src="circuit_image-2.png" alt="M1 Image" width="500">
+</div>
+
+### Pushbutton
+<div align="center">
+  <img src="circuit_image-3.png" alt="M1 Image" width="500">
+</div>
