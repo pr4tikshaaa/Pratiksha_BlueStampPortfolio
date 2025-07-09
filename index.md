@@ -284,7 +284,8 @@ To watch the BSE tutorial on how to create a portfolio, click here.
 - [Adafruit LSM6DS3TR-C LIS3MD Overview](https://learn.adafruit.com/adafruit-lsm6ds3tr-c-lis3mdl-precision-9-dof-imu/overview)
 - [Arduino LSM6DS3 Example Code](https://docs.arduino.cc/libraries/arduino_lsm6ds3/)
 - [Logistic Regression Model](https://colab.research.google.com/github/diannekrouse/LRPython/blob/master/LogisticRegression.ipynb)
-- [Vibration Motor Hookup](https://www.circuito.io/app?components=513,8449,360217) 
+- [Vibration Motor Hookup](https://www.circuito.io/app?components=513,8449,360217)
+- [LED Light Strip w/ ESP32](https://randomnerdtutorials.com/esp32-esp8266-rgb-led-strip-web-server/)
 
 # Appendix A
 ## Milestone 1
