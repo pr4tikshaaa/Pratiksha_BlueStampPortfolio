@@ -954,7 +954,7 @@ void loop() {
 ## Milestone 3
 ### Vibration Motor
 <div align="center">
-  <img src="circuit_image-2.png" alt="M1 Image" width="500">
+  <img src="circuit_image-4.png" alt="M1 Image" width="500">
 </div>
 
 ### Pushbutton
