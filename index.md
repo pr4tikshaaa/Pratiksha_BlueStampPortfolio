@@ -285,6 +285,7 @@ To watch the BSE tutorial on how to create a portfolio, click here.
 - [Arduino LSM6DS3 Example Code](https://docs.arduino.cc/libraries/arduino_lsm6ds3/)
 - [Logistic Regression Model](https://colab.research.google.com/github/diannekrouse/LRPython/blob/master/LogisticRegression.ipynb)
 - [Vibration Motor Hookup](https://www.circuito.io/app?components=513,8449,360217)
+- [Button Tutorial](https://www.youtube.com/watch?v=IRAXPR1i2Mg&t=12s)
 - [LED Light Strip w/ ESP32](https://randomnerdtutorials.com/esp32-esp8266-rgb-led-strip-web-server/)
 
 # Appendix A
