@@ -270,6 +270,7 @@ Don't forget to place the link of where to buy each component inside the quotati
 | Piezo Buzzer | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
 | 10k Ohm Resistor | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
 | 100 Ohm Resistor | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
+| EMA (Exponential Moving Average) Filters | What the item is used for | $Price | <a href="https://blog.mbedded.ninja/programming/signal-processing/digital-filters/exponential-moving-average-ema-filter/"> Link </a> |
 
 # Other Resources/Examples
 <!--
