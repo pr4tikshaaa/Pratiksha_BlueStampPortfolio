@@ -1013,19 +1013,16 @@ float alpha = 0.2;  // EMA smoothing factor
 
 float zeroRoll = 0, zeroPitch = 0, zeroYaw = 0; // Baseline (for calibration)
 
-const int accelBuzzer = 32;
-bool accelBuzzerON = false;
-const int flexPin = 26;
-int sum = 0;
-const int flexBuzzer = 33;
-const int num = 10; // for averaging data
-int flexADC = 0;
-const int flexADCThreshold = 710;
 const int motorPin = 23; // vibration motor pin
-
+const int flexPin = 26;
 const int buttonPin = 27; // button pin
-int buttonState = 0;
+const int accelBuzzer = 32;
+const int flexBuzzer = 32;
 
+const int flexADCThreshold = 710;
+const int num = 10; // for averaging data
+int sum = 0;
+int flexADC = 0;
 
 bool badFormFlex = false;
 bool badFormAccel = false;
@@ -1063,7 +1060,7 @@ void setup(void) {
   while (!Serial)
     delay(10);
 
-  ble.println("Adafruit LSM6DS33 test!");
+    ble.println("Adafruit LSM6DS33 test!");
 
   if (lsm6ds33.begin_I2C()) {
     ble.println("Finding LSM6DS33 chip");
@@ -1198,7 +1195,7 @@ void setup(void) {
 }
 
 void loop() {
-  if (ble.available() > 0) {
+  if (ble.available()) {
     char incomingChar = ble.read();
 
     if (incomingChar == 'p') {
@@ -1312,14 +1309,14 @@ void loop() {
   if (printFlex == true && printAccel == true) {
 
     // Read sensor data
-  int aix, aiy, aiz;
-  int gix, giy, giz;
-  float ax, ay, az;
-  float gx, gy, gz;
-  float roll, pitch, heading;
-  //unsigned long millisNow;
+    int aix, aiy, aiz;
+    int gix, giy, giz;
+    float ax, ay, az;
+    float gx, gy, gz;
+    float roll, pitch, heading;
+    //unsigned long millisNow;
 
-  // check if it's time to read data and update the filter
+    // check if it's time to read data and update the filter
 
     sensors_event_t accel;
     sensors_event_t gyro;
@@ -1350,32 +1347,34 @@ void loop() {
     Serial.print(" Yaw: ");
     Serial.println(heading);
 
+    ble.print("Roll: ");
     ble.print(roll);
-    ble.print(" ");
+    ble.print(" Pitch: ");
     ble.print(pitch);
-    ble.print(" ");
+    ble.print(" Yaw: ");
     ble.println(heading);
   
     if (roll<87) {
-    badFormAccel = true;
-    if (!vibrationMode) {
-    digitalWrite(accelBuzzer, HIGH);
-    ble.println();
-    ble.println("\tAccelerometer: Bad form detected!");
-    ble.println();
+      badFormAccel = true;
+      if (!vibrationMode) {
+        digitalWrite(accelBuzzer, HIGH);
+        ble.println();
+        ble.println("\tAccelerometer: Bad form detected!");
+        ble.println();
+      } else {
+      digitalWrite(motorPin, HIGH);
+      ble.println();
+      ble.println("\tAccelerometer: Bad form detected!");
+      ble.println();
+      }
     } else {
-    digitalWrite(motorPin, HIGH);
-    ble.println();
-    ble.println("\tAccelerometer: Bad form detected!");
-    ble.println();
-    }
-  } else {
     if (!vibrationMode) {
-    digitalWrite(accelBuzzer, LOW);
-    } else {
-    digitalWrite(motorPin, LOW);
+      digitalWrite(accelBuzzer, LOW);
+      } else {
+      digitalWrite(motorPin, LOW);
     }
-  }
+    }
+
     sum = 0;
     for (int i = 0; i < num; i++) {
       sum += analogRead(flexPin);
@@ -1383,28 +1382,28 @@ void loop() {
     }
     flexADC = sum/num;
   
-  if (flexADC < flexADCThreshold) {
-    badFormFlex = true;
-    ble.println();
-    ble.println("\tFlex Sensor: Bad form detected!");
-    ble.println();
-    if (!vibrationMode) {
-    digitalWrite(flexBuzzer, HIGH);
+    if (flexADC < flexADCThreshold) {
+      badFormFlex = true;
+      ble.println();
+      ble.println("\tFlex Sensor: Bad form detected!");
+      ble.println();
+      if (!vibrationMode) {
+        digitalWrite(flexBuzzer, HIGH);
+      } else {
+        digitalWrite(motorPin, HIGH);
+      }
     } else {
-    digitalWrite(motorPin, HIGH);
-    }
-  } else {
     if (!vibrationMode) {
       digitalWrite(flexBuzzer, LOW);
     } else {
-    digitalWrite(motorPin, LOW);
+      digitalWrite(motorPin, LOW);
     }
-  }
+    }
 
-  ble.println();
-  ble.print("FlexADC value: ");
-  ble.println(flexADC);
-  ble.println();
+    ble.println();
+    ble.print("FlexADC value: ");
+    ble.println(flexADC);
+    ble.println();
 
 } else if (printFlex == true && printAccel == false) {
   /*
@@ -1424,148 +1423,135 @@ void loop() {
     //delay(10);
     }
     flexADC = sum/num;
-
-  if (flexADC < flexADCThreshold) {
-    badFormFlex = true;
-    ble.println();
-    ble.println("\tFlex Sensor: Bad form detected!");
-    ble.println();
-    if (!vibrationMode) {
-      digitalWrite(flexBuzzer, HIGH);
+  
+    if (flexADC < flexADCThreshold) {
+      badFormFlex = true;
+      ble.println();
+      ble.println("\tFlex Sensor: Bad form detected!");
+      ble.println();
+      if (!vibrationMode) {
+        digitalWrite(flexBuzzer, HIGH);
+      } else {
+        digitalWrite(motorPin, HIGH);
+      }
     } else {
-      digitalWrite(motorPin, HIGH);
-    }
-  } else {
-    if (!vibrationMode){
+    if (!vibrationMode) {
       digitalWrite(flexBuzzer, LOW);
     } else {
       digitalWrite(motorPin, LOW);
     }
-  }
+    }
 
-  ble.println();
-  ble.print("FlexADC value: ");
-  ble.println(flexADC);
-  ble.println();
+    ble.println();
+    ble.print("FlexADC value: ");
+    ble.println(flexADC);
+    ble.println();
 
 } else if (printFlex == false && printAccel == true) {
 
     // Read sensor data
-    sensors_event_t accel, gyro, temp;
+    int aix, aiy, aiz;
+    int gix, giy, giz;
+    float ax, ay, az;
+    float gx, gy, gz;
+    float roll, pitch, heading;
+    //unsigned long millisNow;
+
+    // check if it's time to read data and update the filter
+
+    sensors_event_t accel;
+    sensors_event_t gyro;
+    sensors_event_t temp;
+  
     lsm6ds33.getEvent(&accel, &gyro, &temp);
 
-    // Apply EMA filtering
-    ax_filtered = alpha * accel.acceleration.x + (1 - alpha) * ax_filtered;
-    ay_filtered = alpha * accel.acceleration.y + (1 - alpha) * ay_filtered;
-    az_filtered = alpha * accel.acceleration.z + (1 - alpha) * az_filtered;
+    // convert from raw data to gravity and degrees/second units
+    ax = convertRawAcceleration(accel.acceleration.x);
+    ay = convertRawAcceleration(accel.acceleration.y);
+    az = convertRawAcceleration(accel.acceleration.z);
+    gx = convertRawGyro(gyro.gyro.x);
+    gy = convertRawGyro(gyro.gyro.y);
+    gz = convertRawGyro(gyro.gyro.z);
 
-    gx_filtered = alpha * gyro.gyro.x + (1 - alpha) * gx_filtered;
-    gy_filtered = alpha * gyro.gyro.y + (1 - alpha) * gy_filtered;
-    gz_filtered = alpha * gyro.gyro.z + (1 - alpha) * gz_filtered;
+    // update the filter, which computes orientation
+    filter.updateIMU(gx, gy, gz, ax, ay, az);
 
-    // Update Madgwick filter
-    filter.updateIMU(gx_filtered, gy_filtered, gz_filtered,
-                     ax_filtered, ay_filtered, az_filtered);
+    // print the heading, pitch and roll
+    roll = filter.getRoll();
+    pitch = filter.getPitch();
+    heading = filter.getYaw();
 
-    // Get orientation
-    float roll = filter.getRoll();
-    float pitch = filter.getPitch();
-    float yaw = filter.getYaw();
+    Serial.print("Roll: ");
+    Serial.print(ax);
+    Serial.print(" Pitch: ");
+    Serial.print(ay);
+    Serial.print(" Yaw: ");
+    Serial.println(az);
 
-    // Optionally subtract baseline
-    float roll_final = roll - zeroRoll;
-    float pitch_final = pitch - zeroPitch;
-    float yaw_final = yaw - zeroYaw;
-
-    // Print to Serial
-    ble.println();
     ble.print("Roll: ");
-    ble.print(roll_final);
-    ble.print(" | Pitch: ");
-    ble.print(pitch_final);
-    ble.print(" | Yaw: ");
-    ble.println(yaw_final);
-    ble.println();
-
-  if (roll_final < 77) {
-    badFormAccel = true;
-    if (!vibrationMode) {
-    digitalWrite(flexBuzzer, HIGH);
-    ble.println();
-    ble.println("\tAccelerometer: Bad form detected!");
-    ble.println();
-    delay(200);   
-    digitalWrite(accelBuzzer, LOW);
-    delay(50);
-    digitalWrite(accelBuzzer, HIGH);
-    delay(200);          
-    digitalWrite(accelBuzzer, LOW);
-    delay(300);
-    } else {
-    digitalWrite(motorPin, HIGH);
-    ble.println();
-    ble.println("\tAccelerometer: Bad form detected!");
-    ble.println();
-    delay(200);   
-    digitalWrite(motorPin, LOW);
-    delay(50);
-    digitalWrite(motorPin, HIGH);
-    delay(200);          
-    digitalWrite(motorPin, LOW);
-    delay(300);
-    }
-  } else {
-    if (!vibrationMode) {
-    digitalWrite(accelBuzzer, LOW);
-    } else {
-    digitalWrite(motorPin, LOW);
-    }
-  }
-  } else if (squatCounter == true) {
-    char incomingChar;
-    if (ble.available()) {
-      char incomingChar = ble.read();
-      if (incomingChar == 'e') {
-        ble.println();
-        ble.print("Congratulations! You did ");
-        ble.print(numSquats);
-        ble.print(" squats!");
-        squatActive = false;
-        squatCounter = false;
-      }
-    } else {
-      /*
-      sum = 0;
-      for (int i = 0; i < num; i++) {
-        sum += analogRead(flexPin);
-      }
-      flexADC = sum/num;
-      */
-
+    ble.print(ax);
+    ble.print(" Pitch: ");
+    ble.print(ay);
+    ble.print(" Yaw: ");
+    ble.println(az);
   
-
-    if (flexADC < flexADCThreshold && squatActive == false) {
-      squatActive = true;
-      ble.println("Squat position reached.");
-    } else if (flexADC > flexADCThreshold && squatActive == true) {
-      squatActive = false;
-      numSquats++;
-      ble.print("Squats: ");
-      ble.println(numSquats);
-    } else if (flexADC > flexADCThreshold && squatActive == false){
-      ble.println("Waiting for squat...");
-      delay(2000);
+    if (roll<87) {
+      badFormAccel = true;
+      if (!vibrationMode) {
+        digitalWrite(accelBuzzer, HIGH);
+        ble.println();
+        ble.println("\tAccelerometer: Bad form detected!");
+        ble.println();
+      } else {
+      digitalWrite(motorPin, HIGH);
+      ble.println();
+      ble.println("\tAccelerometer: Bad form detected!");
+      ble.println();
+      }
+    } else {
+    if (!vibrationMode) {
+      digitalWrite(accelBuzzer, LOW);
+      } else {
+      digitalWrite(motorPin, LOW);
     }
+    }
+  } else if (squatCounter == true) {
+      char incomingChar;
+      if (ble.available()) {
+        char incomingChar = ble.read();
+        if (incomingChar == 'e') {
+          ble.println();
+          ble.print("Congratulations! You completed ");
+          ble.print(numSquats);
+          ble.print(" squats!");
+          squatActive = false;
+          squatCounter = false;
+        }
+      } else {
+        sum = 0;
+        for (int i = 0; i < num; i++) {
+          sum += analogRead(flexPin);
+        }
+        flexADC = sum/num;
 
-  }
-
+        if (flexADC < flexADCThreshold && squatActive == false) {
+          squatActive = true;
+          ble.println("Squat position reached.");
+        } else if (flexADC > flexADCThreshold && squatActive == true) {
+          squatActive = false;
+          numSquats++;
+          ble.print("Squats: ");
+          ble.println(numSquats);
+        } else if (flexADC > flexADCThreshold && squatActive == false){
+          ble.println("Waiting for squat...");
+          delay(2000);
+        }
+      }
   } else if (wallSitTimer == true) {
     sum = 0;
     for (int i = 0; i < num; i++) {
       sum += analogRead(flexPin);
-      //delay(10);
     }
-  
     flexADC = sum/num;
 
     if (flexADC < flexADCThreshold && !wallSitActive) {
@@ -1577,9 +1563,9 @@ void loop() {
       currentTime = millis();
       if (currentTime-startTime >= 1000) {
         long elapsedTime = (currentTime-startTime)/1000; 
-      ble.print("Wall sit: ");
-      ble.print(elapsedTime);
-      ble.println(" seconds.");
+        ble.print("Wall sit: ");
+        ble.print(elapsedTime);
+        ble.println(" seconds.");
       }
     }
     
@@ -1594,13 +1580,10 @@ void loop() {
       wallSitActive = false;
       wallSitTimer = false;
     }
-    
-    delay(200);
   } else if (massageMode == true) {
     digitalWrite(motorPin, HIGH);
     ble.println("Massaging...");
     
-    char incomingChar;
     if (ble.available()) {
       char incomingChar = ble.read();
       if (incomingChar == 'o') {
@@ -1632,5 +1615,6 @@ float convertRawGyro(int gRaw) {
   float g = gRaw / PI * 180;
   return g;
 }
+
 
 ```
