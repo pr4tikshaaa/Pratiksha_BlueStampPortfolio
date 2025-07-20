@@ -222,7 +222,7 @@ I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixi
 Here is the correct wiring:
 
 <div align="center">
-  <img src="adafruit_products_featherStemma_bb" alt="M1 Image" width="500">
+  <img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
 </div>
 
 - 🔴 Red wire: 3V (ESP32) --> VIN (sensor)
