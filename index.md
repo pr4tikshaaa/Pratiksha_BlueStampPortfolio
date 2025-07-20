@@ -207,17 +207,51 @@ In my knee rehab device, I placed the flex sensor behind the knee because measur
 &nbsp;
 &nbsp;
 &nbsp;
-In my project, I needed a way to detect if my knee bends inwards during a squat, so I needed a sensor that would be able to track values that differ from when I do a proper squat versus an improper squat. The Adafruit LSM6DS3 + LIS3MDL Accelerometer is suitable for this.
+To detect improper knee form--like the knee bending inwards during a squat, I used the Adafruit LSM6DS3 + LIS3MDL, which has a 3-axis accelerometer, a 3-axis gyroscope, and a magnetometer. These allow the device to sense movement and orientation in real time.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-The Adafruit Accelerometer is an accelerometer module that detects the accerelation through an acclerometer, the angular velocity through a gyroscop, and the temperature through a magnetometer. The accelerometer and gyroscope read three dimensions, the X, Y, and Z axes.
+I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixing up the I2C wires of the acceleormeter, which caused the accelerometer to fail with the error ```"I2C NACK connection failed"```.
+
+Here is the correct wiring:
+- 🔴 Red wire: 3V (ESP32) --> VIN (sensor)
+- ⚫ Black wire: GND (ESP32) --> GND (sensor)
+- 🔵 Blue wire: GPIO 21 (ESP32 SDA) --> SDA (sensor)
+- 🟡 Yellow wire: GPIO 22 (ESP32 SCL) --> SCL (sensor)
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+I downloaded the appropriate Adafruit LSM6DS33 libraries to initialize and read raw accelerometer and gyroscope data. Then, I used rubber bands to fasten the accelerometer to the side of my knee joint and did proper and improper squats to observe how the accelerometer and gyroscope values changed. 
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+However, later on, I realized that these raw acceleration and gyroscope values aren't enough to get accurate data, so I used the Madgwick filter by downloading the ```MadgwickAHRS``` library. The Madgwick filter is a sensor fusion algorithm that is able to estimate the orientation of a sensor. The orientation in a 3D space is represented by the values roll, pitch, and yaw.
 
 <div align="center">
   <img src="accel_rpy.gif" alt="M1 Image" width="500">
 </div>
+
+- ```Roll```: rotation around longitidinal axis
+- ```Pitch```: rotation around lateral axis
+- ```Yaw```: rotation around vertical axis
+  
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The methods used to get these values are simple as well: ```.getRoll()```, ```.getPitch()```, and ```.getYaw()```.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+I ran Arduino IDE's example code for this filter. Since my specific accelerometer already converts some of the sensor data internally, I had to adjust the formulas to get roll and pitch values in degrees. This filter significantly reduced the noise and inconsistency I had when using only the raw sensor values, improving the accuracy and reliability of detecting bad form.
 
 # Logistic Regression Model
 
