@@ -215,16 +215,15 @@ To detect improper knee form--like the knee bending inwards during a squat, I us
 &nbsp;
 I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixing up the I2C wires of the acceleormeter, which caused the accelerometer to fail with the error ```"I2C NACK connection failed"```.
 
+<div align="center">
+  <img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
+</div>
+
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
 Here is the correct wiring:
-
-<div align="center">
-  <img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
-</div>
-
 - 🔴 Red wire: 3V (ESP32) --> VIN (sensor)
 - ⚫ Black wire: GND (ESP32) --> GND (sensor)
 - 🔵 Blue wire: GPIO 21 (ESP32 SDA) --> SDA (sensor)
