@@ -1047,27 +1047,8 @@ void loop() {
 }
 ```
 
-
-# Appendix B
-## Milestone 1
-<div align="center">
-  <img src="circuit_image.png" alt="M1 Image" width="900">
-</div>
-
 ## Milestone 3
-### Vibration Motor
-<div align="center">
-  <img src="circuit_image-4.png" alt="M1 Image" width="500">
-</div>
-
-### Pushbutton
-<div align="center">
-  <img src="circuit_image-3.png" alt="M1 Image" width="500">
-</div>
-
-### MOST RECENT CODE
-
-```
+```c++
 #include <BleSerial.h>
 
 // all of the below libraries are necessary for the accelerometer
@@ -1113,36 +1094,17 @@ float alpha = 0.2;  // EMA smoothing factor
 
 float zeroRoll = 0, zeroPitch = 0, zeroYaw = 0; // Baseline (for calibration)
 
-const int motorPin = 23; // vibration motor pin
 const int flexPin = 26;
-const int buttonPin = 27; // button pin
-const int accelBuzzer = 32;
-const int flexBuzzer = 32;
+const int accelBuzzer = 4;
+const int flexBuzzer = 33;
 
-const int flexADCThreshold = 710;
+const int flexADCThreshold = 270;
 const int num = 10; // for averaging data
 int sum = 0;
 int flexADC = 0;
 
 bool badFormFlex = false;
 bool badFormAccel = false;
-
-bool wallSitTimer = false;
-bool wallSitActive = false;
-long startTime = 0;
-long currentTime = 0;
-
-bool squatCounter = false;
-bool squatActive = false;
-int numSquats = 0;
-
-bool vibrationMode = false;
-
-bool massageMode = false;
-
-bool programRunning = false;
-
-//bool LEDMode = false;
 
 bool printEnabled = false;
 bool printFlex = false;
@@ -1153,8 +1115,6 @@ void setup(void) {
   pinMode(flexPin, INPUT);
   pinMode(flexBuzzer, OUTPUT);
   pinMode(accelBuzzer, OUTPUT);
-  pinMode(motorPin, OUTPUT);
-  pinMode(buttonPin, INPUT_PULLUP);
   ble.begin("Pratiksha'sBleSerialTest");
 
   while (!Serial)
@@ -1295,114 +1255,42 @@ void setup(void) {
 }
 
 void loop() {
+
   if (ble.available()) {
     char incomingChar = ble.read();
 
     if (incomingChar == 'p') {
       printFlex = true;
       printAccel = true;
-      wallSitTimer = false;
-      wallSitActive = false;
-      squatCounter = false;
-      squatActive = false;
       ble.println();
       ble.println("Printing data...");
       ble.println();
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
+      noTone(accelBuzzer);
+      noTone(flexBuzzer);
     } else if (incomingChar == 'f' ) {
       printFlex = true;
       printAccel = false;
-      wallSitTimer = false;
-      wallSitActive = false;
-      squatCounter = false;
-      squatActive = false;
       ble.println();
       ble.println("Printing flex sensor readings...");
       ble.println();
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
     } else if (incomingChar == 'a') {
       printFlex = false;
       printAccel = true;
-      wallSitTimer = false;
-      wallSitActive = false;
-      squatCounter = false;
-      squatActive = false;
       ble.println();
       ble.println("Printing accelerometer readings...");
       ble.println();
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
     } else if (incomingChar == 's') {
       printFlex = false;
       printAccel = false;
-      wallSitTimer = false;
-      wallSitActive = false;
-      squatCounter = false;
-      squatActive = false;
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
       ble.println();
       ble.println("Printing disabled.");
       ble.println();
-    } else if (incomingChar == '1') {
-      squatCounter = false;
-      squatActive = false;
-      printFlex = false;
-      printAccel = false;
-      wallSitTimer = true;
-      wallSitActive = false;
-      ble.println();
-      ble.println("Wall sit timer intitiated.");
-      ble.println();
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
-    } else if (incomingChar == '2') {
-      squatCounter = true;
-      squatActive = false;
-      printFlex = false;
-      printAccel = false;
-      wallSitTimer = false;
-      wallSitActive = false;
-      ble.println();
-      ble.println("Squat counter intitiated.");
-      ble.println();
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
-    } else if (incomingChar == 'm') {
-      massageMode = true;
-      squatCounter = false;
-      squatActive = false;
-      printFlex = false;
-      printAccel = false;
-      wallSitTimer = false;
-      wallSitActive = false;
-      digitalWrite(accelBuzzer, LOW);
-      digitalWrite(flexBuzzer, LOW);
-      digitalWrite(motorPin, LOW);
-    } /*else if (incomingChar == "l") {
-      LEDMode = true;
-    }*/
-  }
-
-  int buttonState = digitalRead(buttonPin);
-
-  if (buttonState == LOW) {
-    while (digitalRead(buttonPin) == LOW);
-
-    programRunning = !programRunning;
-
-    if (programRunning) {
-      vibrationMode = true;
-    } else {
-      vibrationMode = false;
     }
   }
 
@@ -1456,29 +1344,20 @@ void loop() {
   
     if (roll<87) {
       badFormAccel = true;
-      if (!vibrationMode) {
-        digitalWrite(accelBuzzer, HIGH);
-        ble.println();
-        ble.println("\tAccelerometer: Bad form detected!");
-        ble.println();
-      } else {
-      digitalWrite(motorPin, HIGH);
+      tone(accelBuzzer, 1000);
       ble.println();
       ble.println("\tAccelerometer: Bad form detected!");
       ble.println();
-      }
+      } 
+
     } else {
-    if (!vibrationMode) {
-      digitalWrite(accelBuzzer, LOW);
-      } else {
-      digitalWrite(motorPin, LOW);
-    }
+      badFormAccel = false;
+      noTone(accelBuzzer);
     }
 
     sum = 0;
     for (int i = 0; i < num; i++) {
       sum += analogRead(flexPin);
-    //delay(10);
     }
     flexADC = sum/num;
   
@@ -1487,17 +1366,9 @@ void loop() {
       ble.println();
       ble.println("\tFlex Sensor: Bad form detected!");
       ble.println();
-      if (!vibrationMode) {
-        digitalWrite(flexBuzzer, HIGH);
-      } else {
-        digitalWrite(motorPin, HIGH);
-      }
     } else {
-    if (!vibrationMode) {
-      digitalWrite(flexBuzzer, LOW);
-    } else {
-      digitalWrite(motorPin, LOW);
-    }
+    badFormFlex = false;
+    noTone(flexBuzzer);
     }
 
     ble.println();
@@ -1505,22 +1376,12 @@ void loop() {
     ble.println(flexADC);
     ble.println();
 
+    Serial.println(flexADC);
+
 } else if (printFlex == true && printAccel == false) {
-  /*
-  float linearSum = analogRead(flexPin)*21.49999999999999 + 446.3333333333333;
-  delay(100);
-
-  ble.println();
-  ble.print("FlexADC value: ");
-  ble.println(flexADC);
-  ble.println();
-
-  */
-
     sum = 0;
     for (int i = 0; i < num; i++) {
       sum += analogRead(flexPin);
-    //delay(10);
     }
     flexADC = sum/num;
   
@@ -1529,17 +1390,8 @@ void loop() {
       ble.println();
       ble.println("\tFlex Sensor: Bad form detected!");
       ble.println();
-      if (!vibrationMode) {
-        digitalWrite(flexBuzzer, HIGH);
-      } else {
-        digitalWrite(motorPin, HIGH);
-      }
     } else {
-    if (!vibrationMode) {
-      digitalWrite(flexBuzzer, LOW);
-    } else {
-      digitalWrite(motorPin, LOW);
-    }
+      noTone(flexBuzzer);
     }
 
     ble.println();
@@ -1597,24 +1449,526 @@ void loop() {
   
     if (roll<87) {
       badFormAccel = true;
-      if (!vibrationMode) {
-        digitalWrite(accelBuzzer, HIGH);
-        ble.println();
-        ble.println("\tAccelerometer: Bad form detected!");
-        ble.println();
-      } else {
-      digitalWrite(motorPin, HIGH);
+      tone(accelBuzzer, 1000);
       ble.println();
       ble.println("\tAccelerometer: Bad form detected!");
       ble.println();
+    } else {
+      tone(accelBuzzer, 1000);
+    }
+  } else if (squatCounter == true) {
+      char incomingChar;
+      if (ble.available()) {
+        char incomingChar = ble.read();
+        if (incomingChar == 'e') {
+          ble.println();
+          ble.print("Congratulations! You completed ");
+          ble.print(numSquats);
+          ble.print(" squats!");
+          squatActive = false;
+          squatCounter = false;
+        }
+      } else {
+        sum = 0;
+        for (int i = 0; i < num; i++) {
+          sum += analogRead(flexPin);
+        }
+        flexADC = sum/num;
+
+        if (flexADC < flexADCThreshold && squatActive == false) {
+          squatActive = true;
+          ble.println("Squat position reached.");
+        } else if (flexADC > flexADCThreshold && squatActive == true) {
+          squatActive = false;
+          numSquats++;
+          ble.print("Squats: ");
+          ble.println(numSquats);
+        } else if (flexADC > flexADCThreshold && squatActive == false){
+          ble.println("Waiting for squat...");
+          delay(2000);
+        }
+      }
+  }
+  delay(50);
+  }
+
+float convertRawAcceleration(int aRaw) {
+  // since we are using 2G range
+  // -2g maps to a raw value of -32768
+  // +2g maps to a raw value of 32767
+
+  return aRaw;
+}
+
+float convertRawGyro(int gRaw) {
+  // since we are using 250 degrees/seconds range
+  // -250 maps to a raw value of -32768
+  // +250 maps to a raw value of 32767
+  
+  float g = gRaw / PI * 180;
+  return g;
+}
+```
+
+## Modifications
+```c++
+#include <BleSerial.h>
+
+// all of the below libraries are necessary for the accelerometer
+#include <Adafruit_BusIO_Register.h>
+#include <Adafruit_GenericDevice.h>
+#include <Adafruit_I2CDevice.h>
+#include <Adafruit_I2CRegister.h>
+#include <Adafruit_SPIDevice.h>
+
+#include <Adafruit_LIS3MDL.h>
+
+#include <Adafruit_ISM330DHCX.h>
+#include <Adafruit_LSM6DS.h>
+#include <Adafruit_LSM6DS3.h>
+#include <Adafruit_LSM6DS33.h>
+#include <Adafruit_LSM6DS3TRC.h>
+#include <Adafruit_LSM6DSL.h>
+#include <Adafruit_LSM6DSO32.h>
+#include <Adafruit_LSM6DSOX.h>
+
+#include <Adafruit_Sensor.h>
+
+#include <MadgwickAHRS.h>
+#include <math.h>
+
+// For SPI mode, we need a CS pin
+#define LSM_CS 10
+// For software-SPI mode we need SCK/MOSI/MISO pins
+#define LSM_SCK 13
+#define LSM_MISO 12
+#define LSM_MOSI 11
+
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+#endif
+
+#define PIN 18  // Replace with your data pin
+#define NUMPIXELS 30 // Replace with the number of LEDs on your strip
+
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+Adafruit_LSM6DS33 lsm6ds33;
+BleSerial ble;
+Madgwick filter;
+
+float accelScale, gyroScale;
+
+// Smoothed sensor values (EMA)
+float ax_filtered = 0, ay_filtered = 0, az_filtered = 0;
+float gx_filtered = 0, gy_filtered = 0, gz_filtered = 0;
+float alpha = 0.2;  // EMA smoothing factor
+
+float zeroRoll = 0, zeroPitch = 0, zeroYaw = 0; // Baseline (for calibration)
+
+const int motorPin = 32; // vibration motor pin
+const int flexPin = 26;
+const int buttonPin = 23; // button pin
+const int accelBuzzer = 4;
+const int flexBuzzer = 33;
+
+const int flexADCThreshold = 270;
+const int num = 10; // for averaging data
+int sum = 0;
+int flexADC = 0;
+
+bool badFormFlex = false;
+bool badFormAccel = false;
+
+bool wallSitTimer = false;
+bool wallSitActive = false;
+long startTime = 0;
+long currentTime = 0;
+
+bool squatCounter = false;
+bool squatActive = false;
+int numSquats = 0;
+
+bool vibrationMode = false;
+
+bool massageMode = false;
+
+bool programRunning = false;
+
+bool LEDMode = false;
+bool partyMode = false;
+
+bool printEnabled = false;
+bool printFlex = false;
+bool printAccel = false;
+
+void setup(void) {
+  Serial.begin(115200);
+  pinMode(flexPin, INPUT);
+  pinMode(flexBuzzer, OUTPUT);
+  pinMode(accelBuzzer, OUTPUT);
+  pinMode(motorPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max 255)
+  ble.begin("Pratiksha'sBleSerialTest");
+
+  while (!Serial)
+    delay(10);
+
+    ble.println("Adafruit LSM6DS33 test!");
+
+  if (lsm6ds33.begin_I2C()) {
+    ble.println("Finding LSM6DS33 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+
+  ble.println("LSM6DS33 Found!");
+
+  filter.begin(20);
+
+  lsm6ds33.setAccelRange(LSM6DS_ACCEL_RANGE_2_G);
+  ble.print("Accelerometer range set to: ");
+  switch (lsm6ds33.getAccelRange()) {
+  case LSM6DS_ACCEL_RANGE_2_G:
+    ble.println("+-2G");
+    break;
+  case LSM6DS_ACCEL_RANGE_4_G:
+    ble.println("+-4G");
+    break;
+  case LSM6DS_ACCEL_RANGE_8_G:
+    ble.println("+-8G");
+    break;
+  case LSM6DS_ACCEL_RANGE_16_G:
+    ble.println("+-16G");
+    break;
+  }
+
+  lsm6ds33.setGyroRange(LSM6DS_GYRO_RANGE_250_DPS);
+  ble.print("Gyro range set to: ");
+  switch (lsm6ds33.getGyroRange()) {
+  case LSM6DS_GYRO_RANGE_125_DPS:
+    ble.println("125 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_250_DPS:
+    ble.println("250 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_500_DPS:
+    ble.println("500 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_1000_DPS:
+    ble.println("1000 degrees/s");
+    break;
+  case LSM6DS_GYRO_RANGE_2000_DPS:
+    ble.println("2000 degrees/s");
+    break;
+  case ISM330DHCX_GYRO_RANGE_4000_DPS:
+    break; 
+  }
+
+  lsm6ds33.setAccelDataRate(LSM6DS_RATE_52_HZ);
+  ble.print("Accelerometer data rate set to: ");
+  switch (lsm6ds33.getAccelDataRate()) {
+  case LSM6DS_RATE_SHUTDOWN:
+    ble.println("0 Hz");
+    break;
+  case LSM6DS_RATE_12_5_HZ:
+    ble.println("12.5 Hz");
+    break;
+  case LSM6DS_RATE_26_HZ:
+    ble.println("26 Hz");
+    break;
+  case LSM6DS_RATE_52_HZ:
+    ble.println("52 Hz");
+    break;
+  case LSM6DS_RATE_104_HZ:
+    ble.println("104 Hz");
+    break;
+  case LSM6DS_RATE_208_HZ:
+    ble.println("208 Hz");
+    break;
+  case LSM6DS_RATE_416_HZ:
+    ble.println("416 Hz");
+    break;
+  case LSM6DS_RATE_833_HZ:
+    ble.println("833 Hz");
+    break;
+  case LSM6DS_RATE_1_66K_HZ:
+    ble.println("1.66 KHz");
+    break;
+  case LSM6DS_RATE_3_33K_HZ:
+    ble.println("3.33 KHz");
+    break;
+  case LSM6DS_RATE_6_66K_HZ:
+    ble.println("6.66 KHz");
+    break;
+  }
+
+  lsm6ds33.setGyroDataRate(LSM6DS_RATE_52_HZ);
+  ble.print("Gyro data rate set to: ");
+  switch (lsm6ds33.getGyroDataRate()) {
+  case LSM6DS_RATE_SHUTDOWN:
+    ble.println("0 Hz");
+    break;
+  case LSM6DS_RATE_12_5_HZ:
+    ble.println("12.5 Hz");
+    break;
+  case LSM6DS_RATE_26_HZ:
+    ble.println("26 Hz");
+    break;
+  case LSM6DS_RATE_52_HZ:
+    ble.println("52 Hz");
+    break;
+  case LSM6DS_RATE_104_HZ:
+    ble.println("104 Hz");
+    break;
+  case LSM6DS_RATE_208_HZ:
+    ble.println("208 Hz");
+    break;
+  case LSM6DS_RATE_416_HZ:
+    ble.println("416 Hz");
+    break;
+  case LSM6DS_RATE_833_HZ:
+    ble.println("833 Hz");
+    break;
+  case LSM6DS_RATE_1_66K_HZ:
+    ble.println("1.66 KHz");
+    break;
+  case LSM6DS_RATE_3_33K_HZ:
+    ble.println("3.33 KHz");
+    break;
+  case LSM6DS_RATE_6_66K_HZ:
+    ble.println("6.66 KHz");
+    break;
+  }
+
+  lsm6ds33.configInt1(false, false, true);
+  lsm6ds33.configInt2(false, true, false);
+
+  ble.println("Knee Rehab Device initiated.");
+}
+
+void loop() {
+  Serial.println("Hi");
+
+  if (ble.available()) {
+    char incomingChar = ble.read();
+
+    if (incomingChar == 'p') {
+      printFlex = true;
+      printAccel = true;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = false;
+      partyMode = false;
+      ble.println();
+      ble.println("Printing data...");
+      ble.println();
+      noTone(accelBuzzer);
+      noTone(flexBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == 'f' ) {
+      printFlex = true;
+      printAccel = false;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = false;
+      partyMode = false;
+      ble.println();
+      ble.println("Printing flex sensor readings...");
+      ble.println();
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == 'a') {
+      printFlex = false;
+      printAccel = true;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = false;
+      partyMode = false;
+      ble.println();
+      ble.println("Printing accelerometer readings...");
+      ble.println();
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == 's') {
+      printFlex = false;
+      printAccel = false;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = false;
+      partyMode = false;
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
+      digitalWrite(motorPin, LOW);
+      ble.println();
+      ble.println("Printing disabled.");
+      ble.println();
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == '1') {
+      printFlex = false;
+      printAccel = false;
+      wallSitTimer = true;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = false;
+      partyMode = false;
+      ble.println();
+      ble.println("Wall sit timer intitiated.");
+      ble.println();
+      noTone(flexBuzzer);
+      noTone(accelBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == '2') {
+      printFlex = false;
+      printAccel = false;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = true;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = false;
+      partyMode = false;
+      ble.println();
+      ble.println("Squat counter intitiated.");
+      ble.println();
+      noTone(accelBuzzer);
+      noTone(flexBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == 'm') {
+      printFlex = false;
+      printAccel = false;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = true;
+      LEDMode = false;
+      partyMode = false;
+      noTone(accelBuzzer);
+      noTone(flexBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar == 'l') {
+      printFlex = false;
+      printAccel = false;
+      wallSitTimer = false;
+      wallSitActive = false;
+      squatCounter = false;
+      squatActive = false;
+      massageMode = false;
+      LEDMode = true;
+      partyMode = false;
+      noTone(accelBuzzer);
+      noTone(flexBuzzer);
+      digitalWrite(motorPin, LOW);
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (incomingChar = 'r') {
+      partyMode = true;
+      for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    }
+  }
+
+  int buttonState = digitalRead(buttonPin);
+
+  if (buttonState == LOW) {
+    while (digitalRead(buttonPin) == LOW) {
+    Serial.println("Button pressed");
+    }
+    programRunning = !programRunning;
+    if (programRunning) {
+      vibrationMode = true;
+    } else {
+      vibrationMode = false;
+    }
+  }
+
+  if (printFlex == true && printAccel == true) {
+    accelerometerCheck();
+    flexSensorCheck();
+
+    if (badFormFlex == true || badFormAccel == true) {
+      if (vibrationMode && !LEDMode) {
+        digitalWrite(motorPin, HIGH);
+        for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();
+      }
+      } else if (!vibrationMode && LEDMode) {
+        for(int i=0; i<NUMPIXELS; i++) {
+          pixels.setPixelColor(i, pixels.Color(255, 0, 0));
+          pixels.show();
+        }
       }
     } else {
-    if (!vibrationMode) {
-      digitalWrite(accelBuzzer, LOW);
-      } else {
-      digitalWrite(motorPin, LOW);
+      if (vibrationMode && !LEDMode) {
+        digitalWrite(motorPin, LOW);
+        for(int i=0; i<NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();
+      }
+      } else if (!vibrationMode && LEDMode) {
+        for(int i=0; i<NUMPIXELS; i++) {
+          pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+          pixels.show();
+        }
+      }
     }
-    }
+} else if (printFlex == true && printAccel == false) {
+    flexSensorCheck();
+} else if (printFlex == false && printAccel == true) {
+    accelerometerCheck();
   } else if (squatCounter == true) {
       char incomingChar;
       if (ble.available()) {
@@ -1694,10 +2048,120 @@ void loop() {
       }
     }
 
+  } else if (partyMode == true) {
+    rainbow(10);
   }
   delay(50);
   }
 
+void accelerometerCheck() {
+  // Read sensor data
+  int aix, aiy, aiz;
+  int gix, giy, giz;
+  float ax, ay, az;
+  float gx, gy, gz;
+  float roll, pitch, heading;
+
+  sensors_event_t accel;
+  sensors_event_t gyro;
+  sensors_event_t temp;
+
+  lsm6ds33.getEvent(&accel, &gyro, &temp);
+
+  // convert from raw data to gravity and degrees/second units
+  ax = convertRawAcceleration(accel.acceleration.x);
+  ay = convertRawAcceleration(accel.acceleration.y);
+  az = convertRawAcceleration(accel.acceleration.z);
+  gx = convertRawGyro(gyro.gyro.x);
+  gy = convertRawGyro(gyro.gyro.y);
+  gz = convertRawGyro(gyro.gyro.z);
+
+  // update the filter, which computes orientation
+  filter.updateIMU(gx, gy, gz, ax, ay, az);
+
+  // print the heading, pitch and roll
+  roll = filter.getRoll();
+  pitch = filter.getPitch();
+  heading = filter.getYaw();
+
+  ble.print("Roll: ");
+  ble.print(roll);
+  ble.print(" Pitch: ");
+  ble.print(pitch);
+  ble.print(" Yaw: ");
+  ble.println(heading);
+
+  if (roll<87) {
+    badFormAccel = true;
+    if (!vibrationMode && !LEDMode) {
+      tone(accelBuzzer, 1000);
+      ble.println();
+      ble.println("\tAccelerometer: Bad form detected!");
+      ble.println();
+      for(int i=0; i<NUMPIXELS; i++) {
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      pixels.show();   // Send the updated pixel data to the hardware.
+      }
+    } else if (vibrationMode && !LEDMode) {
+      digitalWrite(motorPin, HIGH);
+      ble.println();
+      ble.println("\tAccelerometer: Bad form detected!");
+      ble.println();
+      for(int i=0; i<NUMPIXELS; i++) {
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      pixels.show();
+      }
+    } 
+
+  } else {
+    badFormAccel = false;
+    if (!vibrationMode && !LEDMode) {
+    noTone(accelBuzzer);
+    } else if (vibrationMode && !LEDMode) {
+    digitalWrite(motorPin, LOW);
+    }
+  }
+}
+
+void flexSensorCheck() {
+  sum = 0;
+  for (int i = 0; i < num; i++) {
+    sum += analogRead(flexPin);
+  }
+  flexADC = sum/num;
+
+  if (flexADC < flexADCThreshold) {
+    badFormFlex = true;
+    ble.println();
+    ble.println("\tFlex Sensor: Bad form detected!");
+    ble.println();
+    if (!vibrationMode && !LEDMode) {
+      tone(flexBuzzer, 1000);
+    } else if (vibrationMode && !LEDMode) {
+      digitalWrite(motorPin, HIGH);
+    } 
+  } else {
+  badFormFlex = false;
+  if (!vibrationMode && !LEDMode) {
+    noTone(flexBuzzer);
+    for(int i=0; i<NUMPIXELS; i++) {
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      pixels.show();
+    }
+  } else if (vibrationMode && !LEDMode){
+    digitalWrite(motorPin, LOW);
+    for(int i=0; i<NUMPIXELS; i++) {
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      pixels.show();
+    }
+  }
+  }
+
+  ble.println();
+  ble.print("FlexADC value: ");
+  ble.println(flexADC);
+  ble.println();
+}
 
 float convertRawAcceleration(int aRaw) {
   // since we are using 2G range
@@ -1716,5 +2180,28 @@ float convertRawGyro(int gRaw) {
   return g;
 }
 
-
+void rainbow(int wait) {
+  // 5 cycles of all colors on wheel
+  for(long firstPixelHue = 0; firstPixelHue < 5*65536; firstPixelHue += 256) {
+    pixels.rainbow(firstPixelHue);
+    pixels.show(); // Update strip with new contents
+  }
+}
 ```
+
+# Appendix B
+## Milestone 1
+<div align="center">
+  <img src="circuit_image.png" alt="M1 Image" width="900">
+</div>
+
+## Milestone 3
+### Vibration Motor
+<div align="center">
+  <img src="circuit_image-4.png" alt="M1 Image" width="500">
+</div>
+
+### Pushbutton
+<div align="center">
+  <img src="circuit_image-3.png" alt="M1 Image" width="500">
+</div>
