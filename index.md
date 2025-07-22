@@ -9,6 +9,77 @@ Replace this text with a brief description (2-3 sentences) of your project. This
 
 # Modifications
 
+## Overview
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+I added various code-based as well as physical modifications to my knee rehabilitation device. Here is a menu of what my modifications are and how they are activated:
+
+Bluetooth Serial Input:
+- ```'1'``` - A **Wall Sit Timer** is initiated.
+- ```'2'``` - A **Squat Counter** is initiated.
+Pushbutton Input:
+- Button pressed for the ```1st``` time: **Vibration Mode** uses a vibration motor that vibrates near the knee joint whenever improper squat form is detected instead of using a buzzer.
+- Button pressed for the ```2nd time```: **Massage Mode** is where the vibration motor continually vibrates to simulate a massage.
+- Button pressed for the ```3rd time```: **LED Mode** uses an LED light strip that is green when the squat is done with proper form and red when the squat is done with improper form.
+- Button pressed for the ```4th time```: **Party Mode** flashes a sequenece of rainbow lights.
+
+### Wall Sit Timer
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The wall sit timer tracks how long the user holds a wall sit position using the flex sensor. A wall sit is when the user leans against a wall in a seated position with their knees bent at 90°. When the wall sit position is reached, the wall sit timer starts.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+First, the flex sensor values are read to determine when the user reaches a 90° position. If the flex sensor's value drops below the threshold I defined and the wall sit hasn't started yet, the code sets ```wallSitActive``` to ```true``` , records the start time in milliseconds (using the ```millis()``` function), and sends a message to the Bluetooth Serial Monitor that the wall sit has started.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+As the user holds the wall sit position, the timer counts how many seconds they have held it for and prints it out onto the serial monitor.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+If the user stands up, breaking away from the wall sit position, and the wall sit was active, the code calcualtes how much time has passed by calling the ```millis()``` function, resets the mode so it is ready for the next command, and prints out a summary of how many seconds the user did a wall sit for.
+
+### Squat Counter
+
+### Vibration Motor
+
+#### Vibration Mode
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+In case a user does not want to listen to a buzzer for form feedback, I added a vibration motor so that they could rely on the feel of the vibration motor and the serial output to determine what they are doing incorrectly. 
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Initially, for the vibration motor schematic, I was going to use a transistor, a resistor, and a diode, so I used another smaller PCB board and connected it to a bigger PCB where my main project was. But, I realized that I had complicated the cicuit for no reason. The vibration motor worked perfectly fine when connnected to simply just power and ground, so I ended up cutting off the wires that connected to the extended PCB board (after a failed attempt to desolder it).
+
+#### Massage Mode
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+I wanted to add a therapeutic side to my knee rehab device, so I decided to use a coin vibration motor, since massage devices and equipment use coin vibration motors to deliver soothing vibrations to relax muscles, reduce tension, and increase blood flow. The code to add this was simple: I just set the ```motorPin``` to ```HIGH```.
+
+### LED Light Strip
+
+#### LED Mode
+
+#### Party Mode
+
 # Final Milestone
 <!--
 **Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
