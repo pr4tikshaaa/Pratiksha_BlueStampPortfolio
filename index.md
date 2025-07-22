@@ -51,6 +51,13 @@ As the user holds the wall sit position, the timer counts how many seconds they 
 If the user stands up, breaking away from the wall sit position, and the wall sit was active, the code calcualtes how much time has passed by calling the ```millis()``` function, resets the mode so it is ready for the next command, and prints out a summary of how many seconds the user did a wall sit for.
 
 ### Squat Counter
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The squat counter tracks how many squats the user completes. It counts a complete squat when the user does a squat and returns to a normal standing position. The user then can choose to end the squat session, and the serial prints out a summary of how many squats they have completed. 
+
+Since I figured out how to do the wall sit timer, the squat counter was fairly easy, especially since I didn't use the ```millis()``` function. First, I waited for the user to enter a squat position, so I waited until the flex sensor angle was around 90 degrees. Then, I waited for the user to stand up from the squat position. When the user stands up, 1 is added to the squat count. When the user chooses to end their session, they can type in ```'e'``` to get their workout summary.
 
 ### Vibration Motor
 
@@ -59,7 +66,7 @@ If the user stands up, breaking away from the wall sit position, and the wall si
 &nbsp;
 &nbsp;
 &nbsp;
-In case a user does not want to listen to a buzzer for form feedback, I added a vibration motor so that they could rely on the feel of the vibration motor and the serial output to determine what they are doing incorrectly. 
+In case a user does not want to listen to a buzzer for form feedback, I added a vibration motor so that they could rely on the feel of the vibration motor and the serial output to determine what they are doing incorrectly. The code writes ```digitalWrite(motorPin, HIGH)```, which turns the motor on, when bad form from either the flex sensor or the accelerometer is detected. The code writes ```digitalWrite(motorPin, LOW)``` when the user's form is good or they are not doing a squat.
 
 &nbsp;
 &nbsp;
@@ -72,11 +79,16 @@ Initially, for the vibration motor schematic, I was going to use a transistor, a
 &nbsp;
 &nbsp;
 &nbsp;
-I wanted to add a therapeutic side to my knee rehab device, so I decided to use a coin vibration motor, since massage devices and equipment use coin vibration motors to deliver soothing vibrations to relax muscles, reduce tension, and increase blood flow. The code to add this was simple: I just set the ```motorPin``` to ```HIGH```.
+I wanted to add a therapeutic side to my knee rehab device, so I decided to use a coin vibration motor, since massage devices and equipment use coin vibration motors to deliver soothing vibrations to relax muscles, reduce tension, and increase blood flow. The code to add this was simple: I just set the ```motorPin``` to ```HIGH``` when this mode was activated.
 
 ### LED Light Strip
 
 #### LED Mode
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Another modification I added was using an LED strip to alert the user of their squat form. Instead of 
 
 #### Party Mode
 
