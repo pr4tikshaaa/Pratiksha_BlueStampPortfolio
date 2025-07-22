@@ -33,46 +33,50 @@ My final milestone overall was to sew all of my components onto my brace and tes
 &nbsp;
 &nbsp;
 &nbsp;
-In this milestone, I totally changed how my accelerometer values were being read. I used the MAdgwick filter and used roll pitch and yaw values to get accurate data from my accelreometer instead. After I fixed this issue with my accelerometer, I soldered my componenets to a PCB board. 
+In this milestone, I totally changed how my accelerometer values were being read. I scrapped the idea of using a logistic regression model, and instead, I used the Madgwick filter (see _Adafruit LSM6DS3 + LIS3MDL Accelerometer_) and used roll, pitch, and yaw values to get accurate data from my accelereometer. 
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-Later in this milestone, I learned how to give the Bluetooth serial commands so it would print specific data and stop doing certain actions. 
-For example, when this character is typed into the Bluetooth serial...
-- ```p```: Both the flex sensor and accelerometer readings are displayed/
-- ```a```: Only the flex sensor values are displayed.
-- ```f```: Only the accelerometer values are displayed.
-- ```s```: Data is stopped being displayed, and any buzzers that were buzzing previously are stopped.
-This way, it was much easier to read the values and verify that each component is working individually. I am planning to add more commands like these to activate my future modifications.
-I also made the Bluetooth serial print out ```"Accelerometer: Bad form detected!"``` and ```"Flex sensor: Bad form detected!"``` at appropriate times.
+After I fixed this issue with my accelerometer, I worked on my modifications (see _Modifications_). I made some modifications solely through code and added other physical modifications. During this milestone, I began to research how to build the necessary circuits I needed for the physical modifications. This included a vibration motor, a pushbutton, and an LED light strip (see _Appendix B_).
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-What I focused the most on during this milestone is figuring out accurate thresholds for my accelerometer to be able to detect when my knee is bending inward while doing a squat. I tried various things to determine my thresholds, but the technique I stuck to in my final code was using a Logistic Regression Model from Google Colab. Logistic Regression is a machine learning method that finds the relationship between an independent variable and a dependent variable and creates a line of best fit to represent the data given to it. So, I did squats in proper form, where my knee wasn't bending inward, and did squats in improper form, where my knee was bending inward and observed how the X, Y, and Z axes were changing. On a Google Sheet, I recorded the three values on 10 different occasions I did a squat in improper form and 10 other occasions where I did a squat in proper form. I also created a 4th column to label the rows as either 'good' or 'bad.' Then, I downloaded the data as a ```.csv``` file and uploaded it to the Google Colab code to give the machine learning model simple and readable data. I also included the line ```df['label'] = df['label'].map({'good': 1, 'bad': 0})``` so the model reads 'good' as 1 and 'bad' as 0. When I ran the code, the output gave me the coefficients and the intercept of the regression equation ```y = a*x + b*y + c*z + d```. Then, I put this equation into my code to calculate a probability value using the logistic equation ```probability = 1.0 / (1.0 + exp(-linearSum));```. This formula converts the linear sum into a value that is between 0 and 1. If the value is greater than 0.5, then the model is more confident that the squat form is good. If the valueis less than 0.5, then the model is more confident that the squt form is bad. So, I used this 0.5 value as a threshold for determining when to buzz the buzzer associated with the accelerometer to alert of improper form.
-
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber banded to secure it to the back of my brace to make sure my device worked.
+Finally, I soldered my componenets to a PCB board, which took up most of my time, given that I am not the best at it. Then, I sewed my accelerometer and the PCB board to the brace, used velcro to attach the flex sensor onto the brace, and used electrical tape to bind some of the wires together so they look less crazy.
 
 ## Challenges
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-At first, I noticed that the BLE Serial app on my phone was not displaying the values of the gyroscope correctly because it was cutting off half of the message, but later on, I realized that the messages were printing too fast. So, the problem was resolved after I added a few delays in between messages being printed.
+This milestone was suppose to be one of the less time-consuming milestones, yet I faced many challenges that stemmed my progress.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-My biggest problem during this milestone was making sure my accelerometer was accurate. At first, I was trying to use the X and Y axes of the gyroscope as the threshold for the bend of the knee because it measures angular velocity, which is the rate of rotation of an object around a particular axis. I thought this would be the best way to detect the inward bend of my knee, but I kept getting values that fluctuated between negative and positive decimals, making it difficult to define a clear, consistent threshold. 
-Then, I tried using the X and Y axes of the accelerometer instead. As I observed the values while doing multiple squats, I noticed a general pattern that the values were decreasing over time as I continued doing reps. So, I figured I had to make a regression model to learn the pattern of my data and use it to classify good and bad squats.
+One problem I had was that after I had plugged in my device to power and uploaded the code, I noticed that the accelerometer was printing innacurate values because it was printing extremely slowly. The mistake I made was that I added too many delays. In my previous milestone, I added multiple delays around my code because I wanted to be able to read the data on my bluetooth serial easily, but this was diminishing the effectiveness of the improper squat form detection by the accelerometer. So, I removed pretty much every single delay in my code. This was because in my final project, seeing the raw accelroatin and flex sensor data is unecessary--only the feedback of good or bad form is important.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+The problem that affected me the most was my soldering quality. After I did my first round of soldering, I realized that my connections were really loose, meaning that I didn't add enough solder to the joints. I frequently had to resolder some joints. And to make sure I wasn't accdientally creating shorts, I used a multimeter and connected its probes to rails that weren't supposed to be connected to each other. If the multimeter beeped, that meant that the rails were connected.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Another mistake I made was soldering wires with header pins that weren't tight enough to stay attached to the header pins of the ESP32. So, I carefully chose wires with tight header pins so I could replace the loose header pins with my them. I stripped the new wire and the wire that I already soldered onto my PCB board, soldered them both together, and added a heat shrink tube.
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Another problem I encountered was that one of my buzzers stopped working. I could tell that it was turned on because I could hear a very faint clicking sound, but it wasn't buzzing like it was supposed to. Using a multimeter, I checked the connections and found out that the buzzer pin was not connected to the wire that handles the button input. I took a closer look at my broken buzzer and saw that it was not placed completely flat onto my PCB board. So, I tried to desolder the buzzer pins so I could push them more into the PCB board and resolder them. But, no matter how many times I tried to desolder it, I was unable to. As a result, I ended up adding a third buzzer and soldered a wire from the same rail of the previous buzzer's input wire to the rail connecting to the positve leg of the new buzzer. However, this did not work--this meant that my buzzers were working completely fine. I tried wiggling the wires a little bit a heard a proper buzzing sound. I realized that the problem was not because of the buzzer itself, but it was becaues of a problem with the input wire I chose. So, I stripped the wire and soldered a working wire to it.
 
 ## Next Steps
 &nbsp;
