@@ -59,9 +59,7 @@ The squat counter tracks how many squats the user completes. It counts a complet
 
 Since I figured out how to do the wall sit timer, the squat counter was fairly easy, especially since I didn't use the ```millis()``` function. First, I waited for the user to enter a squat position, so I waited until the flex sensor angle was around 90 degrees. Then, I waited for the user to stand up from the squat position. When the user stands up, 1 is added to the squat count. When the user chooses to end their session, they can type in ```'e'``` to get their workout summary.
 
-### Vibration Motor
-
-#### Vibration Mode
+### Mode 1 - Vibration Mode
 &nbsp;
 &nbsp;
 &nbsp;
@@ -74,16 +72,14 @@ In case a user does not want to listen to a buzzer for form feedback, I added a 
 &nbsp;
 Initially, for the vibration motor schematic, I was going to use a transistor, a resistor, and a diode, so I used another smaller PCB board and connected it to a bigger PCB where my main project was. But, I realized that I had complicated the cicuit for no reason. The vibration motor worked perfectly fine when connnected to simply just power and ground, so I ended up cutting off the wires that connected to the extended PCB board (after a failed attempt to desolder it).
 
-#### Massage Mode
+### Mode 2 - Massage Mode
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
 I wanted to add a therapeutic side to my knee rehab device, so I decided to use a coin vibration motor, since massage devices and equipment use coin vibration motors to deliver soothing vibrations to relax muscles, reduce tension, and increase blood flow. The code to add this was simple: I just set the ```motorPin``` to ```HIGH``` when this mode was activated.
 
-### LED Light Strip
-
-#### LED Mode
+### Mode 4 - LED Mode
 &nbsp;
 &nbsp;
 &nbsp;
