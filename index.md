@@ -2448,7 +2448,7 @@ void rainbow(int wait) {
   <img src="circuit_image.png" alt="M1 Image" width="900">
 </div>
 <div align="center">
-  <i><p>Figure 1 - Initial circuit built to test flex sensor.</i></p>
+  <i><p>Figure 1 - Initial circuit built to test flex sensor.</p>
 </div>
 
 ## Milestone 3
@@ -2457,7 +2457,7 @@ void rainbow(int wait) {
   <img src="circuit_image-4.png" alt="M1 Image" width="500">
 </div>
 <div align="center">
-  <i><p>Figure 3.1 - Initial circuit built to test vibration motor.</i></p>
+  <i><p>Figure 3.1 - Initial circuit built to test vibration motor.</p>
 </div>
 
 ### Pushbutton
@@ -2465,7 +2465,7 @@ void rainbow(int wait) {
   <img src="circuit_image-3.png" alt="M1 Image" width="500">
 </div>
 <div align="center">
-  <i><p>Figure 3.2 - Initial circuit built to test pushbutton.</i></p>
+  <i><p>Figure 3.2 - Initial circuit built to test pushbutton.</p>
 </div>
 
 ## Modifications
@@ -2473,5 +2473,5 @@ void rainbow(int wait) {
   <img src="circuit_image (1).png" alt="M1 Image" width="900">
 </div>
 <div align="center">
-  <i><p>Figure 3.3 - Final PCB board.</i></p>
+  <i><p>Figure 3.3 - Final PCB board.</p>
 </div>
