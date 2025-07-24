@@ -2470,5 +2470,8 @@ void rainbow(int wait) {
 
 ## Modifications
 <div align="center">
+  <img src="circuit_image (1).png" alt="M1 Image" width="900">
+</div>
+<div align="center">
   <i><p>Figure 3.3 - Final PCB board.</i></p>
 </div>
