@@ -23,14 +23,14 @@ Pushbutton Input:
 - Button pressed for the ```1st``` time: **Vibration Mode** uses a vibration motor that vibrates near the knee joint whenever improper squat form is detected instead of using a buzzer.
 - Button pressed for the ```2nd time```: **Massage Mode** is where the vibration motor continually vibrates to simulate a massage.
 - Button pressed for the ```3rd time```: **LED Mode** uses an LED light strip that is green when the squat is done with proper form and red when the squat is done with improper form.
-- Button pressed for the ```4th time```: **Party Mode** flashes a sequenece of rainbow lights.
+- Button pressed for the ```4th time```: **Party Mode** flashes a sequence of rainbow lights.
 
 ### Wall Sit Timer
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-The wall sit timer tracks how long the user holds a wall sit position using the flex sensor. A wall sit is when the user leans against a wall in a seated position with their knees bent at 90°. When the wall sit position is reached, the wall sit timer starts.
+The wall sit timer tracks how long the user holds a wall sit position using the flex sensor. A wall sit is performed when the user leans against a wall in a seated position with their knees bent at a 90° angle. When the wall sit position is reached, the wall sit timer starts.
 
 &nbsp;
 &nbsp;
@@ -42,13 +42,13 @@ First, the flex sensor values are read to determine when the user reaches a 90°
 &nbsp;
 &nbsp;
 &nbsp;
-As the user holds the wall sit position, the timer counts how many seconds they have held it for and prints it out onto the serial monitor.
+As the user holds the wall sit position, the timer counts the number of seconds they have held it for and prints out the result onto the serial monitor.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-If the user stands up, breaking away from the wall sit position, and the wall sit was active, the code calcualtes how much time has passed by calling the ```millis()``` function, resets the mode so it is ready for the next command, and prints out a summary of how many seconds the user did a wall sit for.
+If the user stands up, breaking away from the wall sit position, and the wall sit was active, the code calculates how much time has passed by calling the ```millis()``` function, resets the mode so it is ready for the next command, and prints out a summary of how many seconds the user did a wall sit for.
 
 ### Squat Counter
 &nbsp;
@@ -70,7 +70,7 @@ In case a user does not want to listen to a buzzer for form feedback, I added a 
 &nbsp;
 &nbsp;
 &nbsp;
-Initially, for the vibration motor schematic, I was going to use a transistor, a resistor, and a diode, so I used another smaller PCB board and connected it to a bigger PCB where my main project was. But, I realized that I had complicated the cicuit for no reason. The vibration motor worked perfectly fine when connnected to simply just power and ground, so I ended up cutting off the wires that connected to the extended PCB board (after a failed attempt to desolder it).
+Initially, for the vibration motor schematic, I was going to use a transistor, a resistor, and a diode, so I used another smaller PCB board and connected it to a bigger PCB where my main project was. But, I realized that I had complicated the circuit for no reason. The vibration motor worked perfectly fine when connected to simply just power and ground, so I ended up cutting off the wires that connected to the extended PCB board (after a failed attempt to desolder it).
 
 ### Mode 2 - Massage Mode
 &nbsp;
@@ -96,7 +96,7 @@ Another modification I added was using an LED strip to alert the user of their s
 &nbsp;
 &nbsp;
 &nbsp;
-The ```.Color(R, G, B)``` method takes inputs of intesnsity levels between 0 and 255 of red, green, and blue respectively, hence why to show the color red, I used ```.Color(255, 0, 0)```. This is placed in a ```for loop``` so that every pixel on the strip shows this color.
+The ```.Color(R, G, B)``` method takes inputs of intensity levels between 0 and 255 of red, green, and blue respectively, hence why to show the color red, I used ```.Color(255, 0, 0)```. This is placed in a ```for loop``` so that every pixel on the strip shows this color.
 
 &nbsp;
 &nbsp;
@@ -104,13 +104,13 @@ The ```.Color(R, G, B)``` method takes inputs of intesnsity levels between 0 and
 &nbsp;
 When the user is standing or is not doing an improper squat, the default color of the strip is green. So, I did ```.Color(0, 255, 0)``` to show green.
 
-#### Mode 4 - Party Mode
+### Mode 4 - Party Mode
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-Calibrating the LED strip was my favorite part of my whole project. I wanted ot play around with it more and experiment with how I could show different light patterns, so I decided to use code that shows a rainbow light sequence. I used the following code:
+Calibrating the LED strip was my favorite part of my whole project. I wanted to play around with it more and experiment with how I could show different light patterns, so I decided to use code that shows a rainbow light sequence. I used the following code:
 ```c++
   for (long firstPixelHue = 0; firstPixelHue < 5 * 65536; firstPixelHue += 256) {
     pixels.rainbow(firstPixelHue);
@@ -143,13 +143,13 @@ For your final milestone, explain the outcome of your project. Key details to in
 &nbsp;
 &nbsp;
 &nbsp;
-My final milestone overall was to sew all of my components onto my brace and test it to see if it accruately detects improper and proper squat form. 
+My final milestone overall was to sew all of my components onto my brace and test it to see if it accurately detects improper and proper squat form. 
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-In this milestone, I totally changed how my accelerometer values were being read. I scrapped the idea of using a logistic regression model, and instead, I used the Madgwick filter (see _Adafruit LSM6DS3 + LIS3MDL Accelerometer_) and used roll, pitch, and yaw values to get accurate data from my accelereometer. 
+In this milestone, I totally changed how my accelerometer values were being read. I scrapped the idea of using a logistic regression model, and instead, I used the Madgwick filter (see _Adafruit LSM6DS3 + LIS3MDL Accelerometer_) and used roll, pitch, and yaw values to get accurate data from my accelerometer. 
 
 &nbsp;
 &nbsp;
@@ -161,45 +161,45 @@ After I fixed this issue with my accelerometer, I worked on my modifications (se
 &nbsp;
 &nbsp;
 &nbsp;
-Finally, I soldered my componenets to a PCB board, which took up most of my time, given that I am not the best at it. Then, I sewed my accelerometer and the PCB board to the brace, used velcro to attach the flex sensor onto the brace, and used electrical tape to bind some of the wires together so they look less crazy.
+Finally, I soldered my components to a PCB board, which took up most of my time, given that I am not the best at it. Then, I sewed my accelerometer and the PCB board to the brace, used velcro to attach the flex sensor onto the brace, and used electrical tape to bind some of the wires together so they look less crazy.
 
 ## Challenges
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-This milestone was suppose to be one of the less time-consuming milestones, yet I faced many challenges that stemmed my progress.
+This milestone was supposed to be one of the less time-consuming milestones, yet I faced many challenges that stemmed my progress.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-One problem I had was that after I had plugged in my device to power and uploaded the code, I noticed that the accelerometer was printing innacurate values because it was printing extremely slowly. The mistake I made was that I added too many delays. In my previous milestone, I added multiple delays around my code because I wanted to be able to read the data on my bluetooth serial easily, but this was diminishing the effectiveness of the improper squat form detection by the accelerometer. So, I removed pretty much every single delay in my code. This was because in my final project, seeing the raw accelroatin and flex sensor data is unecessary--only the feedback of good or bad form is important.
+One problem I had was that after I had plugged in my device to power and uploaded the code, I noticed that the accelerometer was printing inaccurate values because it was printing extremely slowly. The mistake I made was that I added too many delays. In my previous milestone, I added multiple delays around my code because I wanted to be able to read the data on my bluetooth serial easily, but this was diminishing the effectiveness of the improper squat form detection by the accelerometer. So, I removed pretty much every single delay in my code. This was because in my final project, seeing the raw acceleration and flex sensor data is unnecessary--only the feedback of good or bad form is important.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-The problem that affected me the most was my soldering quality. After I did my first round of soldering, I realized that my connections were really loose, meaning that I didn't add enough solder to the joints. I frequently had to resolder some joints. And to make sure I wasn't accdientally creating shorts, I used a multimeter and connected its probes to rails that weren't supposed to be connected to each other. If the multimeter beeped, that meant that the rails were connected.
+The problem that affected me the most was my soldering quality. After I did my first round of soldering, I realized that my connections were really loose, meaning that I didn't add enough solder to the joints. I frequently had to resolder some joints. And to make sure I wasn't accidentally creating shorts, I used a multimeter and connected its probes to rails that weren't supposed to be connected to each other. If the multimeter beeped, that meant that the rails were connected.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-Another mistake I made was soldering wires with header pins that weren't tight enough to stay attached to the header pins of the ESP32. So, I carefully chose wires with tight header pins so I could replace the loose header pins with my them. I stripped the new wire and the wire that I already soldered onto my PCB board, soldered them both together, and added a heat shrink tube.
+Another mistake I made was soldering wires with header pins that weren't tight enough to stay attached to the header pins of the ESP32. So, I carefully chose wires with tight header pins so I could replace the loose header pins with them. I stripped the new wire and the wire that I already soldered onto my PCB board, soldered them both together, and added a heat shrink tube.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-Another problem I encountered was that one of my buzzers stopped working. I could tell that it was turned on because I could hear a very faint clicking sound, but it wasn't buzzing like it was supposed to. Using a multimeter, I checked the connections and found out that the buzzer pin was not connected to the wire that handles the button input. I took a closer look at my broken buzzer and saw that it was not placed completely flat onto my PCB board. So, I tried to desolder the buzzer pins so I could push them more into the PCB board and resolder them. But, no matter how many times I tried to desolder it, I was unable to. As a result, I ended up adding a third buzzer and soldered a wire from the same rail of the previous buzzer's input wire to the rail connecting to the positve leg of the new buzzer. However, this did not work--this meant that my buzzers were working completely fine. I tried wiggling the wires a little bit a heard a proper buzzing sound. I realized that the problem was not because of the buzzer itself, but it was becaues of a problem with the input wire I chose. So, I stripped the wire and soldered a working wire to it.
+Another problem I encountered was that one of my buzzers stopped working. I could tell that it was turned on because I could hear a very faint clicking sound, but it wasn't buzzing like it was supposed to. Using a multimeter, I checked the connections and found out that the buzzer pin was not connected to the wire that handles the button input. I took a closer look at my broken buzzer and saw that it was not placed completely flat onto my PCB board. So, I tried to desolder the buzzer pins so I could push them more into the PCB board and resolder them. But, no matter how many times I tried to desolder it, I was unable to. As a result, I ended up adding a third buzzer and soldered a wire from the same rail of the previous buzzer's input wire to the rail connecting to the positive leg of the new buzzer. However, this did not work--this meant that my buzzers were working completely fine. I tried wiggling the wires a little bit and heard a proper buzzing sound. I realized that the problem was not because of the buzzer itself, but it was because of a problem with the input wire I chose. So, I stripped the wire and soldered a working wire to it.
 
 ## Next Steps
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-My next steps are to finalize and add my modfications to my project and make sure my device has sufficient functionality.
+My next steps are to finalize and add my modifications to my project and make sure my device has sufficient functionality.
 
 # Second Milestone
 <!--
@@ -245,13 +245,13 @@ I also made the Bluetooth serial print out ```"Accelerometer: Bad form detected!
 &nbsp;
 &nbsp;
 &nbsp;
-What I focused the most on during this milestone is figuring out accurate thresholds for my accelerometer to be able to detect when my knee is bending inward while doing a squat. I tried various things to determine my thresholds, but the technique I stuck to in my final code was using a Logistic Regression Model from Google Colab. Logistic Regression is a machine learning method that finds the relationship between an independent variable and a dependent variable and creates a line of best fit to represent the data given to it. So, I did squats in proper form, where my knee wasn't bending inward, and did squats in improper form, where my knee was bending inward and observed how the X, Y, and Z axes were changing. On a Google Sheet, I recorded the three values on 10 different occasions I did a squat in improper form and 10 other occasions where I did a squat in proper form. I also created a 4th column to label the rows as either 'good' or 'bad.' Then, I downloaded the data as a ```.csv``` file and uploaded it to the Google Colab code to give the machine learning model simple and readable data. I also included the line ```df['label'] = df['label'].map({'good': 1, 'bad': 0})``` so the model reads 'good' as 1 and 'bad' as 0. When I ran the code, the output gave me the coefficients and the intercept of the regression equation ```y = a*x + b*y + c*z + d```. Then, I put this equation into my code to calculate a probability value using the logistic equation ```probability = 1.0 / (1.0 + exp(-linearSum));```. This formula converts the linear sum into a value that is between 0 and 1. If the value is greater than 0.5, then the model is more confident that the squat form is good. If the valueis less than 0.5, then the model is more confident that the squt form is bad. So, I used this 0.5 value as a threshold for determining when to buzz the buzzer associated with the accelerometer to alert of improper form.
+What I focused the most on during this milestone is figuring out accurate thresholds for my accelerometer to be able to detect when my knee is bending inward while doing a squat. I tried various things to determine my thresholds, but the technique I stuck to in my final code was using a Logistic Regression Model from Google Colab. Logistic Regression is a machine learning method that finds the relationship between an independent variable and a dependent variable and creates a line of best fit to represent the data given to it. So, I did squats in proper form, where my knee wasn't bending inward, and did squats in improper form, where my knee was bending inward and observed how the X, Y, and Z axes were changing. On a Google Sheet, I recorded the three values on 10 different occasions I did a squat in improper form and 10 other occasions where I did a squat in proper form. I also created a 4th column to label the rows as either 'good' or 'bad.' Then, I downloaded the data as a ```.csv``` file and uploaded it to the Google Colab code to give the machine learning model simple and readable data. I also included the line ```df['label'] = df['label'].map({'good': 1, 'bad': 0})``` so the model reads 'good' as 1 and 'bad' as 0. When I ran the code, the output gave me the coefficients and the intercept of the regression equation ```y = a*x + b*y + c*z + d```. Then, I put this equation into my code to calculate a probability value using the logistic equation ```probability = 1.0 / (1.0 + exp(-linearSum));```. This formula converts the linear sum into a value that is between 0 and 1. If the value is greater than 0.5, then the model is more confident that the squat form is good. If the value is less than 0.5, then the model is more confident that the squat form is bad. So, I used this 0.5 value as a threshold for determining when to buzz the buzzer associated with the accelerometer to alert of improper form.
 
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber banded to secure it to the back of my brace to make sure my device worked.
+Finally, I soldered my flex sensor pins to two wires so I could determine a threshold for it. Then, I used a rubber band to secure it to the back of my brace to make sure my device worked.
 
 ## Challenges
 &nbsp;
@@ -272,7 +272,7 @@ Then, I tried using the X and Y axes of the accelerometer instead. As I observed
 &nbsp;
 &nbsp;
 &nbsp;
-My next steps are to add more modfications to my project and sew everything together onto my brace.
+My next steps are to add more modifications to my project and sew everything together onto my brace.
 
 # First Milestone
 <!--
@@ -293,13 +293,13 @@ For your first milestone, describe what your project is and how you plan to buil
 &nbsp;
 &nbsp;
 &nbsp;
-My first milestone was to learn how to calibrate a flex sensor, an accelerometer, and buzzers with an ESP32. When the flex sensor's flexADC value is below a certain number (approximately what looks like 90 degrees to the naked eye), one buzzer will buzz continuously and the serial monitor prints out "Flex Sensor: Bad form detected!" I also tried sampling the data the flex sensor was outputing in attempt to make the data more accurate. I did this by reading ten values from the flex sensor at intervals of 0.01 seconds, finding the average of them, and print out that average. For the accelerometer, I used the example code provided by Arduino IDE (found when you go to 'File' and then press 'Examples') and added the logic to play the buzzer at a specific time. When the adafruit accelerometer's X-axis acceleration value is below a certain number, another buzzer, different from the one used for the flex sensor, will buzz in a different pattern, and the serial monitor prints out "Accelerometer: Bad form detected!" I also learned how to print out the outputs that were originally displayed on the Serial Monitor on my laptop onto an app on my phone called BLESerialnRF52.
+My first milestone was to learn how to calibrate a flex sensor, an accelerometer, and buzzers with an ESP32. When the flex sensor's flexADC value is below a certain number (approximately what looks like 90 degrees to the naked eye), one buzzer will buzz continuously and the serial monitor prints out "Flex Sensor: Bad form detected!" I also tried sampling the data the flex sensor was outputting in an attempt to make the data more accurate. I did this by reading ten values from the flex sensor at intervals of 0.01 seconds, finding the average of them, and printing out that average. For the accelerometer, I used the example code provided by Arduino IDE (found when you go to 'File' and then press 'Examples') and added the logic to play the buzzer at a specific time. When the adafruit accelerometer's X-axis acceleration value is below a certain number, another buzzer, different from the one used for the flex sensor, will buzz in a different pattern, and the serial monitor prints out "Accelerometer: Bad form detected!" I also learned how to print out the outputs that were originally displayed on the Serial Monitor on my laptop onto an app on my phone called BLESerialnRF52.
 ## Challenges
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-Calibrating the accelerometer was one of the biggest challenges for me. One thing I did not pay attention to that set me back a little was that I downloaded the libraries and used the example code for the wrong accelerometer. The example code for the Adafruit LSM6DS3+LIS3MDL Accelerometer did not work as it was, so I had to tweak it a bit by uncommenting and changing line and downloading the necessary libraries. I also figured out that a 9600 baud rate wasn't suitable for the accelerometer and would either print out random symbols onto the serial monitor or nothing at all, so I changed all my code to begin the serial with a 112500 baud rate. The baud rate refers to the speed of data transmission, so a higher baud rate would be needed for the accelerometer because it generates data at high frequencies.
+Calibrating the accelerometer was one of the biggest challenges for me. One thing I did not pay attention to that set me back a little was that I downloaded the libraries and used the example code for the wrong accelerometer. The example code for the Adafruit LSM6DS3+LIS3MDL Accelerometer did not work as it was, so I had to tweak it a bit by uncommenting and changing lines and downloading the necessary libraries. I also figured out that a 9600 baud rate wasn't suitable for the accelerometer and would either print out random symbols onto the serial monitor or nothing at all, so I changed all my code to begin the serial with a 112500 baud rate. The baud rate refers to the speed of data transmission, so a higher baud rate would be needed for the accelerometer because it generates data at high frequencies.
 ## Next Steps
 &nbsp;
 &nbsp;
@@ -338,7 +338,7 @@ Here's where you'll put images of your schematics. [Tinkercad](https://www.tinke
 &nbsp;
 &nbsp;
 &nbsp;
-In my project, I needed a way to measure much my knee bends while doing a squat. A flex sensor is perfect for this task. 
+In my project, I needed a way to measure how much my knee bends while doing a squat. A flex sensor is perfect for this task. 
 
 &nbsp;
 &nbsp;
@@ -354,7 +354,7 @@ A flex sensor is a type of variable resistor that changes its electrical resista
 &nbsp;
 &nbsp;
 &nbsp;
-This change in resistance can be measured and read by a microcontroller--in my case, an ESP32-WROOM--using a voltage divider circuit _(see Apendix B)_. I connected the flex sensor to the analog pin, pin number 26 on the ESP32. I chose GPIO 26 because it supports analog input, which is essential for this flex to be able to read the changing resistance values of the flex sensor.
+This change in resistance can be measured and read by a microcontroller--in my case, an ESP32-WROOM--using a voltage divider circuit _(see Appendix B)_. I connected the flex sensor to the analog pin, pin number 26 on the ESP32. I chose GPIO 26 because it supports analog input, which is essential for this flex to be able to read the changing resistance values of the flex sensor.
 
 &nbsp;
 &nbsp;
@@ -391,7 +391,7 @@ To detect improper knee form--like the knee bending inwards during a squat, I us
 &nbsp;
 &nbsp;
 &nbsp;
-I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixing up the I2C wires of the acceleormeter, which caused the accelerometer to fail with the error ```"I2C NACK connection failed"```.
+I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixing up the I2C wires of the accelerometer, which caused the accelerometer to fail with the error ```"I2C NACK connection failed"```.
 
 <div align="center">
   <img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
@@ -423,7 +423,7 @@ However, later on, I realized that these raw acceleration and gyroscope values a
   <img src="accel_rpy.gif" alt="M1 Image" width="500">
 </div>
 
-- ```Roll```: rotation around longitidinal axis
+- ```Roll```: rotation around longitudinal axis
 - ```Pitch```: rotation around lateral axis
 - ```Yaw```: rotation around vertical axis
   
@@ -582,7 +582,7 @@ Adafruit_LSM6DS33 lsm6ds33;
 const int accelBuzzer = 32;
 const int flexPin = 26;
 const int flexBuzzer = 33;
-const int num = 10; // for samplng data
+const int num = 10; // for sampling data
 const int flexADCThreshold = 620;
 
 void setup(void) {
@@ -1974,7 +1974,7 @@ void loop() {
       LEDMode = false;
       partyMode = false;
       ble.println();
-      ble.println("Wall sit timer intitiated.");
+      ble.println("Wall sit timer initiated.");
       ble.println();
       noTone(flexBuzzer);
       noTone(accelBuzzer);
@@ -1994,7 +1994,7 @@ void loop() {
       LEDMode = false;
       partyMode = false;
       ble.println();
-      ble.println("Squat counter intitiated.");
+      ble.println("Squat counter initiated.");
       ble.println();
       noTone(accelBuzzer);
       noTone(flexBuzzer);
