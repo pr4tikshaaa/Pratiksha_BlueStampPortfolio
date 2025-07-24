@@ -802,7 +802,7 @@ void loop() {
 ```
 
 ## Milestone 2
-```cpp
+```c++
 // Basic demo for accelerometer/gyro readings from Adafruit LSM6DS33
 
 // For SPI mode, we need a CS pin
