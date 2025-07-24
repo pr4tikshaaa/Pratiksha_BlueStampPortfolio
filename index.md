@@ -401,6 +401,7 @@ I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixi
 </div>
 <div align="center">
   <i><p>Figure B - The image shows the wiring of the accelerometer to the ESP32.</i></p>
+</div>
 
 &nbsp;
 &nbsp;
