@@ -356,8 +356,9 @@ A flex sensor is a type of variable resistor that changes its electrical resista
 <div align="center">
   <img src="flex_sensor.webp" alt="M1 Image" width="500">
 </div>
+
 <div align="center">
-  <i><p>Figure A - Image shows that the flex sensor changes its resistance the more it is bent.</p></i>
+  <i><p>Figure A - Image shows that the flex sensor changes its resistance the more it is bent.</i></p>
 </div>
 
 &nbsp;
