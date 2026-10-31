@@ -354,11 +354,11 @@ In my project, I needed a way to measure how much my knee bends while doing a sq
 A flex sensor is a type of variable resistor that changes its electrical resistance based on how much it is bent. When the sensor is straight, it has a lower resistance, and as it bends, the resistance increases. 
 
 <div align="center">
-  <img src="flex_sensor.webp" alt="M1 Image" width="500">
+<img src="flex_sensor.webp" alt="M1 Image" width="500">
 </div>
 
 <div align="center">
-  <p><em>Figure A - Image shows that the flex sensor changes its resistance the more it is bent.</em></p>
+<p><em>Figure A - Image shows that the flex sensor changes its resistance the more it is bent.</em></p>
 </div>
 
 &nbsp;
@@ -377,7 +377,7 @@ In the code, I read the sensor values using the analogRead() function on pin 26:
 &nbsp;
 &nbsp;
 &nbsp;
-```int flexADC = analogRead(flexPin);  // flexPin = 26```
+`int flexADC = analogRead(flexPin);  // flexPin = 26`
 
 &nbsp;
 &nbsp;
