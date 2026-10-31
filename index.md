@@ -407,6 +407,7 @@ I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixi
 <div align="center">
   <img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
 </div>
+
 <div align="center">
   <i><p>Figure B - The image shows the wiring of the accelerometer to the ESP32.</i></p>
 </div>
@@ -436,6 +437,7 @@ However, later on, I realized that these raw acceleration and gyroscope values a
 <div align="center">
   <img src="accel_rpy.gif" alt="M1 Image" width="500">
 </div>
+
 <div align="center">
   <i><p>Figure C - The image shows the axis reference diagram of the accelerometer in a 3D space.</i></p>
 </div>
