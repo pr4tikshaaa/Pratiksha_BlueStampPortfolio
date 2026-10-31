@@ -409,7 +409,7 @@ I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixi
 </div>
 
 <div align="center">
-<em><p>Figure B - The image shows the wiring of the accelerometer to the ESP32.</em></p>
+<p><em>Figure B - The image shows the wiring of the accelerometer to the ESP32.</em></p>
 </div>
 
 &nbsp;
@@ -439,7 +439,7 @@ However, later on, I realized that these raw acceleration and gyroscope values a
 </div>
 
 <div align="center">
-<em><p>Figure C - The image shows the axis reference diagram of the accelerometer in a 3D space.</em></p>
+<p><em>Figure C - The image shows the axis reference diagram of the accelerometer in a 3D space.</em></p>
 </div>
 
 - `Roll`: rotation around longitudinal axis
