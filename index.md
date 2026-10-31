@@ -402,14 +402,14 @@ To detect improper knee form--like the knee bending inwards during a squat--I us
 &nbsp;
 &nbsp;
 &nbsp;
-I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixing up the I2C wires of the accelerometer, which caused the accelerometer to fail with the error ```"I2C NACK connection failed"```.
+I connected the sensor to the ESP32 over I2C. A frequent mistake I made was mixing up the I2C wires of the accelerometer, which caused the accelerometer to fail with the error `"I2C NACK connection failed"`.
 
 <div align="center">
-  <img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
+<img src="adafruit_products_featherStemma_bb.png" alt="M1 Image" width="400">
 </div>
 
 <div align="center">
-  <i><p>Figure B - The image shows the wiring of the accelerometer to the ESP32.</i></p>
+<em><p>Figure B - The image shows the wiring of the accelerometer to the ESP32.</em></p>
 </div>
 
 &nbsp;
@@ -432,25 +432,25 @@ I downloaded the appropriate Adafruit LSM6DS33 libraries to initialize and read 
 &nbsp;
 &nbsp;
 &nbsp;
-However, later on, I realized that these raw acceleration and gyroscope values aren't enough to get accurate data, so I used the Madgwick filter by downloading the ```MadgwickAHRS``` library. The Madgwick filter is a sensor fusion algorithm that is able to estimate the orientation of a sensor. The orientation in a 3D space is represented by the values roll, pitch, and yaw.
+However, later on, I realized that these raw acceleration and gyroscope values aren't enough to get accurate data, so I used the Madgwick filter by downloading the `MadgwickAHRS` library. The Madgwick filter is a sensor fusion algorithm that is able to estimate the orientation of a sensor. The orientation in a 3D space is represented by the values roll, pitch, and yaw.
 
 <div align="center">
-  <img src="accel_rpy.gif" alt="M1 Image" width="500">
+<img src="accel_rpy.gif" alt="M1 Image" width="500">
 </div>
 
 <div align="center">
-  <i><p>Figure C - The image shows the axis reference diagram of the accelerometer in a 3D space.</i></p>
+<em><p>Figure C - The image shows the axis reference diagram of the accelerometer in a 3D space.</em></p>
 </div>
 
-- ```Roll```: rotation around longitudinal axis
-- ```Pitch```: rotation around lateral axis
-- ```Yaw```: rotation around vertical axis
+- `Roll`: rotation around longitudinal axis
+- `Pitch`: rotation around lateral axis
+- `Yaw`: rotation around vertical axis
   
 &nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
-The methods used to get these values are simple as well: ```.getRoll()```, ```.getPitch()```, and ```.getYaw()```.
+The methods used to get these values are simple as well: `.getRoll()`, `.getPitch()`, and `.getYaw()`.
 
 &nbsp;
 &nbsp;
